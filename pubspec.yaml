@@ -1,6 +1,6 @@
 name: wattz
-description: "A new Flutter project."
-publish_to: 'none'
+description: "An EV Charging Application"
+publish_to: "none"
 version: 0.1.0+1
 
 environment:
@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   bloc: ^9.2.0
+  cupertino_icons: ^1.0.9
+  cupertino_native: ^0.1.1
   equatable: ^2.0.8
   flutter:
     sdk: flutter
@@ -20,3 +22,15 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/charging/
+    - assets/images/icons/
+    - assets/images/logo/
+    - assets/images/welcome/
+    - assets/images/
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
