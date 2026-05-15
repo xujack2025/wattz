@@ -1,4 +1,8 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
+import 'package:wattz/core/constants/app_colors.dart';
+import 'package:wattz/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:wattz/presentation/widgets/navigation_bar/custom_bottom_nav_bar.dart';
 
 void main() {
@@ -10,9 +14,17 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CustomBottomNavBar(),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primary,
+          primary: AppColors.primary,
+        ),
+      ),
+      // home: const CustomBottomNavBar(),
+      home: const OnBoardingPage(),
     );
   }
 }
