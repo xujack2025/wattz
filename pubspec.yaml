@@ -7,10 +7,12 @@ environment:
   sdk: ^3.11.4
 
 dependencies:
+  adaptive_platform_ui: ^0.1.107
   bloc: ^9.2.0
   cupertino_icons: ^1.0.9
   cupertino_native: ^0.1.1
   equatable: ^2.0.8
+  fluentui_icons: ^1.0.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
@@ -41,6 +43,12 @@ flutter:
       fonts:
         - asset: assets/fonts/JetBrains_Mono/static/JetBrainsMono-Regular.ttf
         - asset: assets/fonts/JetBrains_Mono/static/JetBrainsMono-Bold.ttf
+          weight: 700
+
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
           weight: 700
 
 flutter_launcher_icons:

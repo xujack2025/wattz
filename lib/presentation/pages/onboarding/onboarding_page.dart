@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:wattz/core/constants/app_colors.dart';
+import 'package:wattz/core/constants/app_media.dart';
+import 'package:wattz/core/constants/app_text_styles.dart';
 import 'package:wattz/presentation/widgets/navigation_bar/custom_bottom_nav_bar.dart';
 
 class OnBoardingPage extends StatefulWidget {
@@ -20,7 +23,12 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   }
 
   Widget _buildImage(String assetName, [double height = 350]) {
-    return Image.asset('assets/images/welcome/$assetName', height: height);
+    return Container(
+      height: height,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+      child: Image.asset(assetName, height: height, fit: BoxFit.cover),
+    );
   }
 
   @override
@@ -28,68 +36,62 @@ class OnBoardingPageState extends State<OnBoardingPage> {
     const bodyStyle = TextStyle(fontSize: 19.0);
 
     var pageDecoration = PageDecoration(
-      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+      titleTextStyle: AppTextStyles.titleLarge,
       bodyTextStyle: bodyStyle,
-      bodyPadding: EdgeInsets.all(16),
+      bodyPadding: EdgeInsets.symmetric(horizontal: 16),
+      imagePadding: EdgeInsets.only(top: 6),
       imageAlignment: Alignment.bottomCenter,
-      pageColor: Colors.white,
+      pageColor: AppColors.bgColor,
       bodyAlignment: Alignment.topCenter,
-      imageFlex: 5,
-      bodyFlex: 3,
+      imageFlex: 7,
+      bodyFlex: 4,
     );
 
     return IntroductionScreen(
       key: introKey,
-      globalBackgroundColor: Colors.white,
-      allowImplicitScrolling: true,
-      // autoScrollDuration: 3000,
-      // infiniteAutoScroll: true,
-      // animationDuration: 1500,
-      // bodyPadding: EdgeInsets.all(16),
-      globalHeader: Align(
-        alignment: Alignment.topRight,
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16, right: 16),
-            child: Text("EZCHARGE"),
-          ),
-        ),
+      globalBackgroundColor: AppColors.bgColor,
+      autoScrollDuration: 3000,
+      infiniteAutoScroll: true,
+      animationDuration: 2000,
+      globalHeader: AppBar(
+        backgroundColor: AppColors.bgColor,
+        title: Text("Wattz", style: AppTextStyles.headlineLarge),
+        centerTitle: false,
+        titleSpacing: 24,
       ),
-      globalFooter: SizedBox(height: 40),
       pages: [
         PageViewModel(
-          title: "Schedule your charging",
-          body: "Check, Reserve and charge your EV.",
-          image: _buildImage('schedule_charging1.png'),
+          title: "Smart Charging, Zero Waiting",
+          body: "Search, reserve, and power up. No more queueing at the station.",
+          image: _buildImage(AppMedia.welcome1),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Pay for your charging",
-          body: "Pay with any method you prefer.",
-          image: _buildImage('schedule_charging2.png'),
+          title: "Seamless Multi-Payment",
+          body: "Pay your way. Supporting cards, \ne-wallets, and quick checkout.",
+          image: _buildImage(AppMedia.welcome2),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Earn for your charging",
-          image: _buildImage('schedule_charging3.png'),
-          decoration: pageDecoration,
-          bodyWidget: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Earn points for every sustainable action.",
-                style: bodyStyle,
-                textAlign: TextAlign.center,
-              ),
-              Container(
+          title: "Charge & Get Rewarded",
+          body:
+              "Earn points with every session. Turn your kilometers into cashback and perks.",
+          image: _buildImage(AppMedia.welcome3),
+          decoration: pageDecoration.copyWith(bodyFlex: 3, footerFlex: 1),
+          useScrollView: false,
+          footer: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: SizedBox(
                 width: double.infinity,
-                // alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: FilledButton(
                   style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.deepDarkBlue,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadiusGeometry.circular(8),
                     ),
+                    textStyle: bodyStyle,
                   ),
                   onPressed: () {
                     _onIntroEnd(context);
@@ -97,27 +99,21 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                   child: Text("Done"),
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ],
-      // onDone: () => _onIntroEnd(context),
-      // onSkip: () => _onIntroEnd(context), // You can override onSkip callback
-      // showSkipButton: false,
-      // showBackButton: true,
+      dotsFlex: 1,
+      nextFlex: 0,
+      skipOrBackFlex: 0,
       showNextButton: false,
       showDoneButton: false,
-      //rtl: true, // Display as right-to-left
-      // skip: const Text('Skip'),
-      // back: const Text('Back'),
-      // next: const Icon(Icons.arrow_forward),
-      // done: const Text('Done'),
-      // curve: Curves.fastLinearToSlowEaseIn,
-      controlsMargin: const EdgeInsets.only(top: 100),
+      curve: Curves.fastLinearToSlowEaseIn,
+      controlsMargin: const EdgeInsets.only(bottom: 32),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
-        color: Color(0xFFBDBDBD),
-        activeSize: Size(22.0, 10.0),
+        activeSize: Size(30.0, 12.0),
+        activeColor: AppColors.deepDarkBlue,
         activeShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0)),
         ),

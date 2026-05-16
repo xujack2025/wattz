@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wattz/core/constants/app_colors.dart';
 import 'package:wattz/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:wattz/presentation/widgets/navigation_bar/custom_bottom_nav_bar.dart';
+import 'package:wattz/presentation/widgets/text_field/text_example.dart';
 
 void main() {
   runApp(const MainApp());
