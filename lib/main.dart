@@ -26,7 +26,7 @@ class MainApp extends StatelessWidget {
         ),
       ),
       // home: const CustomBottomNavBar(),
-      home: const OnBoardingPage(),
+      home: const CustomBottomNavBar(),
       routes: {
         AppRoutes.homePage: (context) => const CustomBottomNavBar(),
         AppRoutes.onBoardingPage: (context) => const OnBoardingPage(),

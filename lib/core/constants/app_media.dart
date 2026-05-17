@@ -10,6 +10,8 @@ class AppMedia {
   static const startCharging = '${charging}start_charging.png';
 
   static const mapIcon = '${icons}map_icon.png';
+  static const acIcon = '${icons}ac_favicon.png';
+  static const dcIcon = '${icons}dc_favicon.png';
 
   static const appleLogo = '${logo}apple_logo.png';
   static const ezchargeLogoFore = '${logo}ezcharge_logo_foreground.png';
