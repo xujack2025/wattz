@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:wattz/core/constants/app_colors.dart';
-import 'package:wattz/core/constants/app_media.dart';
-import 'package:wattz/core/constants/app_text_styles.dart';
-import 'package:wattz/presentation/widgets/navigation_bar/custom_bottom_nav_bar.dart';
+
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_media.dart';
+import '../../../core/constants/app_text_styles.dart';
+import '../../../core/utils/app_routes.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -15,27 +16,15 @@ class OnBoardingPage extends StatefulWidget {
 class OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
-  void _onIntroEnd(BuildContext context) {
-    debugPrint("Navigate to Home");
-    Navigator.of(
-      context,
-    ).pushReplacement(MaterialPageRoute(builder: (_) => const CustomBottomNavBar()));
-  }
-
-  Widget _buildImage(String assetName, [double height = 350]) {
-    return Container(
-      height: height,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-      child: Image.asset(assetName, height: height, fit: BoxFit.cover),
-    );
+  void _onIntroEnd() {
+    Navigator.pushNamed(context, AppRoutes.homePage);
   }
 
   @override
   Widget build(BuildContext context) {
     const bodyStyle = TextStyle(fontSize: 19.0);
 
-    var pageDecoration = PageDecoration(
+    var pageDecoration = const PageDecoration(
       titleTextStyle: AppTextStyles.titleLarge,
       bodyTextStyle: bodyStyle,
       bodyPadding: EdgeInsets.symmetric(horizontal: 16),
@@ -55,34 +44,36 @@ class OnBoardingPageState extends State<OnBoardingPage> {
       animationDuration: 2000,
       globalHeader: AppBar(
         backgroundColor: AppColors.bgColor,
-        title: Text("Wattz", style: AppTextStyles.headlineLarge),
+        title: const Text("Wattz", style: AppTextStyles.headlineLarge),
         centerTitle: false,
         titleSpacing: 24,
       ),
       pages: [
         PageViewModel(
           title: "Smart Charging, Zero Waiting",
-          body: "Search, reserve, and power up. No more queueing at the station.",
-          image: _buildImage(AppMedia.welcome1),
+          body:
+              "Search, reserve, and power up. No more queueing at the station.",
+          image: const BuildImage(assetName: AppMedia.welcome1),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Seamless Multi-Payment",
-          body: "Pay your way. Supporting cards, \ne-wallets, and quick checkout.",
-          image: _buildImage(AppMedia.welcome2),
+          body:
+              "Pay your way. Supporting cards, \ne-wallets, and quick checkout.",
+          image: const BuildImage(assetName: AppMedia.welcome2),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Charge & Get Rewarded",
           body:
               "Earn points with every session. Turn your kilometers into cashback and perks.",
-          image: _buildImage(AppMedia.welcome3),
+          image: const BuildImage(assetName: AppMedia.welcome3),
           decoration: pageDecoration.copyWith(bodyFlex: 3, footerFlex: 1),
           useScrollView: false,
           footer: Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: SizedBox(
                 width: double.infinity,
                 child: FilledButton(
@@ -94,9 +85,9 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                     textStyle: bodyStyle,
                   ),
                   onPressed: () {
-                    _onIntroEnd(context);
+                    _onIntroEnd();
                   },
-                  child: Text("Done"),
+                  child: const Text("Done"),
                 ),
               ),
             ),
@@ -123,6 +114,23 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
       ),
+    );
+  }
+}
+
+class BuildImage extends StatelessWidget {
+  const BuildImage({super.key, required this.assetName, this.height = 350});
+
+  final String assetName;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+      child: Image.asset(assetName, height: height, fit: BoxFit.cover),
     );
   }
 }

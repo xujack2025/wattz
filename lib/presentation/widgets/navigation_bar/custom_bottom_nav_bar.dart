@@ -4,12 +4,12 @@ import 'package:cupertino_native/cupertino_native.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wattz/core/constants/app_colors.dart';
-import 'package:wattz/presentation/pages/home/home_page.dart';
-import 'package:wattz/presentation/pages/map/map_page.dart';
-import 'package:wattz/presentation/pages/profile/profile_page.dart';
-import 'package:wattz/presentation/pages/reward/reward_page.dart';
-import 'package:wattz/presentation/pages/scan/scan_page.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../pages/home/home_page.dart';
+import '../../pages/map/map_page.dart';
+import '../../pages/profile/profile_page.dart';
+import '../../pages/reward/reward_page.dart';
+import '../../pages/scan/scan_page.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
   const CustomBottomNavBar({super.key});
@@ -22,7 +22,13 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
-  final appPages = const [HomePage(), MapPage(), ScanPage(), RewardPage(), ProfilePage()];
+  final appPages = const [
+    HomePage(),
+    MapPage(),
+    ScanPage(),
+    RewardPage(),
+    ProfilePage(),
+  ];
 
   int selectedTabIndex = 0;
   void onItemTapped(int index) {
@@ -44,36 +50,44 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar>
           showUnselectedLabels: true,
           type: BottomNavigationBarType.fixed,
           items: [
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(FluentSystemIcons.ic_fluent_home_regular),
               label: "Wattz",
               activeIcon: Icon(FluentSystemIcons.ic_fluent_home_filled),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(FluentSystemIcons.ic_fluent_map_regular),
               label: "Map",
               activeIcon: Icon(FluentSystemIcons.ic_fluent_map_filled),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Icon(FluentSystemIcons.ic_fluent_qr_code_regular, size: 38),
+                padding: EdgeInsets.only(top: 10),
+                child: Icon(
+                  FluentSystemIcons.ic_fluent_qr_code_regular,
+                  size: 38,
+                ),
               ),
               label: "",
               activeIcon: Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Icon(FluentSystemIcons.ic_fluent_qr_code_filled, size: 38),
+                padding: EdgeInsets.only(top: 10),
+                child: Icon(
+                  FluentSystemIcons.ic_fluent_qr_code_filled,
+                  size: 38,
+                ),
               ),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(FluentSystemIcons.ic_fluent_gift_regular),
               label: "Rewards",
               activeIcon: Icon(FluentSystemIcons.ic_fluent_gift_filled),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(FluentSystemIcons.ic_fluent_person_accounts_regular),
               label: "Me",
-              activeIcon: Icon(FluentSystemIcons.ic_fluent_person_accounts_filled),
+              activeIcon: Icon(
+                FluentSystemIcons.ic_fluent_person_accounts_filled,
+              ),
             ),
           ],
         ),
@@ -87,15 +101,24 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar>
               alignment: Alignment.bottomCenter,
               child: CNTabBar(
                 items: [
-                  CNTabBarItem(icon: CNSymbol("house.fill"), label: "Wattz"),
-                  CNTabBarItem(icon: CNSymbol("map.fill"), label: "Map"),
+                  const CNTabBarItem(
+                    icon: CNSymbol("house.fill"),
+                    label: "Wattz",
+                  ),
+                  const CNTabBarItem(icon: CNSymbol("map.fill"), label: "Map"),
 
-                  CNTabBarItem(icon: CNSymbol("qrcode.viewfinder")),
-                  CNTabBarItem(icon: CNSymbol("gift.fill"), label: "Rewards"),
-                  CNTabBarItem(icon: CNSymbol("person.fill"), label: "Me"),
+                  const CNTabBarItem(icon: CNSymbol("qrcode.viewfinder")),
+                  const CNTabBarItem(
+                    icon: CNSymbol("gift.fill"),
+                    label: "Rewards",
+                  ),
+                  const CNTabBarItem(
+                    icon: CNSymbol("person.fill"),
+                    label: "Me",
+                  ),
                 ],
                 currentIndex: selectedTabIndex,
-                tint: Color(0xFF1EBAE0),
+                tint: const Color(0xFF1EBAE0),
                 onTap: onItemTapped,
               ),
             ),

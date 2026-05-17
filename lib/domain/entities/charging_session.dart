@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:wattz/domain/entities/payment.dart';
+import 'payment.dart';
 
 enum SessionStatus { active, completed, canceled }
 

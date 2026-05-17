@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 enum UserStatus { active, suspended, blocked }
+
 enum UserRole { customer, admin }
 
 abstract class User extends Equatable {

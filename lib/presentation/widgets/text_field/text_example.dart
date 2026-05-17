@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:wattz/core/constants/app_text_styles.dart';
+import '../../../core/constants/app_text_styles.dart';
 
 class TextExample extends StatelessWidget {
   const TextExample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Column(
         children: [
           Text("This is displayLarge", style: AppTextStyles.displayLarge),

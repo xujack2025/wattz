@@ -1,14 +1,12 @@
 enum ChargerStatus { available, charging, offline, maintenance }
+
 enum ConnectorType { type2, ccs2, chademo }
 
 abstract class Charger {
   final String id;
   final ChargerStatus status;
 
-  const Charger({
-    required this.id,
-    required this.status,
-  });
+  const Charger({required this.id, required this.status});
 
   double calculateFee(double kwh);
 
