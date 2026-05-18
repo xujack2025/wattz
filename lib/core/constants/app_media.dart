@@ -12,6 +12,8 @@ class AppMedia {
   static const mapIcon = '${icons}map_icon.png';
   static const acIcon = '${icons}ac_favicon.png';
   static const dcIcon = '${icons}dc_favicon.png';
+  static const ezchargeIconGlass = '${icons}ezcharge_icon_glass.png';
+  static const ezchargeIcon = '${icons}ezcharge_icon.png';
 
   static const appleLogo = '${logo}apple_logo.png';
   static const ezchargeLogoFore = '${logo}ezcharge_logo_foreground.png';

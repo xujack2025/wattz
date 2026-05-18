@@ -32,6 +32,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   Widget build(BuildContext context) {
     final platformColor = Platform.isIOS ? AppColors.primary : null;
     return AdaptiveScaffold(
+      minimizeBehavior: TabBarMinimizeBehavior.never,
       body: appPages[selectedTabIndex],
       bottomNavigationBar: AdaptiveBottomNavigationBar(
         selectedIndex: selectedTabIndex,

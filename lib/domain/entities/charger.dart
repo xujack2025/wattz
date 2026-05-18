@@ -5,52 +5,48 @@ enum ConnectorType { type2, ccs2, chademo }
 abstract class Charger {
   final String id;
   final ChargerStatus status;
+  final double powerOutput;
+  final double sessionFee;
+  final double ratePerKwh;
 
-  const Charger({required this.id, required this.status});
+  const Charger({
+    required this.id,
+    required this.status,
+    required this.powerOutput,
+    required this.sessionFee,
+    required this.ratePerKwh,
+  });
 
-  double calculateFee(double kwh);
+  double calculateFee(double kwh) {
+    if (kwh <= 0) throw ArgumentError('kwh must be > 0');
+    return (kwh * ratePerKwh) + sessionFee;
+  }
 
   bool get isAvailable => status == ChargerStatus.available;
 }
 
 class ACCharger extends Charger {
-  final double powerOutput;
   final ConnectorType connectorType;
-  final double ratePerKwh;
 
-  const ACCharger({
+  ACCharger({
+    required this.connectorType,
     required super.id,
     required super.status,
-    required this.powerOutput,
-    required this.connectorType,
-    this.ratePerKwh = 0.8,
+    required super.powerOutput,
+    required super.sessionFee,
+    required super.ratePerKwh,
   });
-
-  @override
-  double calculateFee(double kwh) {
-    if (kwh <= 0) throw ArgumentError('kwh must be > 0');
-    return kwh * ratePerKwh;
-  }
 }
 
 class DCCharger extends Charger {
-  final double powerOutput;
   final ConnectorType connectorType;
-  final double ratePerKwh;
-  final double sessionFee;
 
-  const DCCharger({
+  DCCharger({
+    required this.connectorType,
     required super.id,
     required super.status,
-    required this.powerOutput,
-    required this.connectorType,
-    this.ratePerKwh = 1.5,
-    this.sessionFee = 5.0,
+    required super.powerOutput,
+    required super.sessionFee,
+    required super.ratePerKwh,
   });
-
-  @override
-  double calculateFee(double kwh) {
-    if (kwh <= 0) throw ArgumentError('kwh must be > 0');
-    return (kwh * ratePerKwh) + sessionFee;
-  }
 }
