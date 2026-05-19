@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_text_styles.dart';
 import '../glass_effect/custom_glass_container.dart';
@@ -10,12 +10,16 @@ class CustomButtonIcon extends StatelessWidget {
     this.textAlign = TextAlign.center,
     this.textStyle,
     this.width = 60,
+    required this.icon,
+    this.iconColor = Colors.black,
   });
 
   final double? width;
   final String text;
   final TextAlign? textAlign;
   final TextStyle? textStyle;
+  final IconData icon;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,7 @@ class CustomButtonIcon extends StatelessWidget {
             sigmaX: 0,
             sigmaY: 0,
             padding: 16,
-            widget: Icon(CupertinoIcons.battery_charging),
+            widget: Icon(icon, color: iconColor),
           ),
           SizedBox(height: 4),
           Text(

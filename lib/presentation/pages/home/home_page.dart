@@ -40,6 +40,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       edgeOffset: 60,
@@ -186,10 +192,26 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomButtonIcon(text: 'DCFC', width: 81),
-                          CustomButtonIcon(text: 'AutoCharge', width: 81),
-                          CustomButtonIcon(text: 'Offline', width: 81),
-                          CustomButtonIcon(text: 'NewSites', width: 81),
+                          CustomButtonIcon(
+                            text: 'DCFC',
+                            width: 81,
+                            icon: CupertinoIcons.add_circled,
+                          ),
+                          CustomButtonIcon(
+                            text: 'AutoCharge',
+                            width: 81,
+                            icon: CupertinoIcons.add_circled,
+                          ),
+                          CustomButtonIcon(
+                            text: 'Offline',
+                            width: 81,
+                            icon: CupertinoIcons.add_circled,
+                          ),
+                          CustomButtonIcon(
+                            text: 'NewSites',
+                            width: 81,
+                            icon: CupertinoIcons.add_circled,
+                          ),
                         ],
                       ),
                     ),
@@ -202,10 +224,26 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomButtonIcon(text: 'Promo', width: 81),
-                          CustomButtonIcon(text: 'Subscriptions', width: 81),
-                          CustomButtonIcon(text: 'Referal', width: 81),
-                          CustomButtonIcon(text: 'Go for\nBusiness', width: 81),
+                          CustomButtonIcon(
+                            text: 'Promo',
+                            width: 81,
+                            icon: CupertinoIcons.add_circled,
+                          ),
+                          CustomButtonIcon(
+                            text: 'Subscriptions',
+                            width: 81,
+                            icon: CupertinoIcons.add_circled,
+                          ),
+                          CustomButtonIcon(
+                            text: 'Referal',
+                            width: 81,
+                            icon: CupertinoIcons.add_circled,
+                          ),
+                          CustomButtonIcon(
+                            text: 'Go for\nBusiness',
+                            width: 81,
+                            icon: CupertinoIcons.add_circled,
+                          ),
                         ],
                       ),
                     ),

@@ -17,8 +17,6 @@ class CustomBottomNavBar extends StatefulWidget {
 }
 
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
-  late TabController tabController;
-
   final appPages = const [HomePage(), MapPage(), ScanPage(), RewardPage(), ProfilePage()];
 
   int selectedTabIndex = 0;
