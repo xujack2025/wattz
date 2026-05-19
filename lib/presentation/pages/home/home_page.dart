@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_media.dart';
-import '../../../core/constants/app_text_styles.dart';
+import '../../widgets/button/custom_button_icon.dart';
+import '../../widgets/button/custom_filled_button.dart';
+import '../../widgets/button/custom_outline_button.dart';
 import '../../widgets/card/nearby_station_detail_card.dart';
+import '../../widgets/glass_effect/custom_glass_container.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,9 +19,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _scrollController = ScrollController();
+  double blurValue = 0;
+
   Future<void> _handleRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
     debugPrint("Data reloaded!");
+  }
+
+  @override
+  void initState() {
+    _scrollController.addListener(() {
+      double offset = _scrollController.offset;
+      setState(() {
+        blurValue = (offset / 20).clamp(0, 20);
+      });
+    });
+
+    super.initState();
   }
 
   @override
@@ -29,21 +47,22 @@ class _HomePageState extends State<HomePage> {
       onRefresh: _handleRefresh,
       child: Scaffold(
         backgroundColor: AppColors.bgColor,
-        // appBar: AppBar(),
         body: Stack(
           children: [
-            // Background Image
+            // Container Background
             Container(
               padding: EdgeInsets.only(left: 8, top: 40),
               width: double.infinity,
               height: 400,
               decoration: BoxDecoration(
-                color: AppColors.primary,
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  stops: [0.5, 1],
-                  colors: [AppColors.primary, AppColors.bgColor.withValues(alpha: 0.8)],
+                  stops: [0.2, 1],
+                  colors: [
+                    AppColors.deepDarkBlue,
+                    AppColors.bgColor.withValues(alpha: 0.8),
+                  ],
                 ),
               ),
               child: Stack(
@@ -57,173 +76,142 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
+
+            // Blur Layer
+            ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: blurValue, sigmaY: blurValue),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
+
             ListView(
+              controller: _scrollController,
               children: [
                 // Content
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [0, 0.3],
-                      colors: [
-                        AppColors.bgColor.withValues(alpha: 0),
-                        AppColors.bgColor.withValues(alpha: 0.8),
+                Column(
+                  children: [
+                    // Notification
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 16),
+                          child: ClipOval(
+                            child: CustomGlassContainer(
+                              padding: 12,
+                              widget: Icon(
+                                CupertinoIcons.bell_fill,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                  // padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    children: [
-                      // Notification
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+
+                    // Station Charger Quick Access Card
+                    SizedBox(height: 20),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: StationDetailCard(
+                        isCompact: false,
+                        logoUrl:
+                            'https://play-lh.googleusercontent.com/BkSW_w9u43LTSw-mulSssIO4LRyvLUJntS2nrhcMmItDQ45LJUhfD2pqXovTHJWr7f0I=w240-h480-rw',
+                        name: 'ChargeSini',
+                        address: '[PUBLIC] FORTUNE CENTRA \n(COMMERCIAL) (Commercial)',
+                        chargerType: 'DC',
+                        chargers: 2,
+                        widgetRow: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomOutlineButton(text: "Scan QR", onTap: () {}),
+                            SizedBox(width: 16),
+                            CustomFilledButton(text: "View Chargers", onTap: () {}),
+                          ],
+                        ),
+                        powerOutput: 50,
+                        distanceInMeters: 451,
+                        rating: 4.0,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+
+                    // Station List
+                    SizedBox(height: 30),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          ClipOval(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                              child: Container(
-                                padding: EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withAlpha(20), // Glass tint
-                                ),
-                                child: Icon(
-                                  CupertinoIcons.bell_fill,
-                                  color: Colors.white,
-                                ),
-                              ),
+                          Expanded(
+                            child: StationDetailCard(
+                              isCompact: true,
+                              borderRadius: BorderRadius.circular(20),
+                              logoUrl:
+                                  'https://play-lh.googleusercontent.com/BkSW_w9u43LTSw-mulSssIO4LRyvLUJntS2nrhcMmItDQ45LJUhfD2pqXovTHJWr7f0I=w240-h480-rw',
+                              address: 'Kiara Bay by Master Card',
+                              chargerType: 'DC',
+                              chargers: 3,
+                              distanceInMeters: 211,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: StationDetailCard(
+                              isCompact: true,
+                              borderRadius: BorderRadius.circular(20),
+                              logoUrl:
+                                  'https://play-lh.googleusercontent.com/BkSW_w9u43LTSw-mulSssIO4LRyvLUJntS2nrhcMmItDQ45LJUhfD2pqXovTHJWr7f0I=w240-h480-rw',
+                              address:
+                                  '[PUBLIC] FORTUNE CENTRA (COMMERCIAL) (Commercial)',
+                              chargerType: 'DC',
+                              chargers: 3,
+                              distanceInMeters: 211,
                             ),
                           ),
                         ],
                       ),
-                      // Merchant Charger Quick Access Card
-                      SizedBox(height: 20),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: StationDetailCard(
-                          logoUrl:
-                              'https://play-lh.googleusercontent.com/BkSW_w9u43LTSw-mulSssIO4LRyvLUJntS2nrhcMmItDQ45LJUhfD2pqXovTHJWr7f0I=w240-h480-rw',
-                          name: 'ChargeSini',
-                          address: '[PUBLIC] FORTUNE CENTRA \n(COMMERCIAL) (Commercial)',
-                          powerOutput: 50,
-                          distanceInMeters: 211,
-                          rating: 4.0,
-                          chargerType: 'DC',
-                          chargers: 2,
-                          buttonRow: CustomButtonRow(
-                            buttonRow: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    backgroundColor: Colors.transparent,
-                                    // minimumSize: Size(160, 40),
-                                    side: BorderSide(color: AppColors.primary),
-                                  ),
-                                  onPressed: () {},
-                                  child: Text(
-                                    "Scan QR",
-                                    style: AppTextStyles.labelLarge.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 16),
-                              Expanded(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    // minimumSize: Size(160, 40),
-                                    foregroundColor: AppColors.white,
-                                    backgroundColor: AppColors.primary,
-                                  ),
-                                  onPressed: () {},
-                                  child: Text(
-                                    "View Chargers",
-                                    style: AppTextStyles.labelLarge.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                    ),
+
+                    // First Row Icon Button
+                    SizedBox(height: 30),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomButtonIcon(text: 'DCFC', width: 81),
+                          CustomButtonIcon(text: 'AutoCharge', width: 81),
+                          CustomButtonIcon(text: 'Offline', width: 81),
+                          CustomButtonIcon(text: 'NewSites', width: 81),
+                        ],
                       ),
-                      SizedBox(height: 30),
-                      SingleChildScrollView(
-                        padding: EdgeInsets.only(left: 16),
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            StationDetailCard(
-                              name: 'ChargeSini',
-                              address: 'Kiara Bay',
-                              powerOutput: 50,
-                              distanceInMeters: 451,
-                              chargerType: 'DC',
-                              chargers: 3,
-                            ),
+                    ),
 
-                            SizedBox(width: 12),
-                            StationDetailCard(
-                              name: 'ChargeSini',
-                              address: 'Kiara Bay',
-                              powerOutput: 50,
-                              distanceInMeters: 451,
-                              chargerType: 'DC',
-                              chargers: 3,
-                            ),
-
-                            SizedBox(width: 12),
-                            StationDetailCard(
-                              name: 'ChargeSini',
-                              address: 'Kiara Bay',
-                              powerOutput: 50,
-                              distanceInMeters: 451,
-                              chargerType: 'DC',
-                              chargers: 3,
-                            ),
-
-                            SizedBox(width: 12),
-                            StationDetailCard(
-                              name: 'ChargeSini',
-                              address: 'Kiara Bay',
-                              powerOutput: 50,
-                              distanceInMeters: 451,
-                              chargerType: 'DC',
-                              chargers: 3,
-                            ),
-
-                            SizedBox(width: 12),
-                            StationDetailCard(
-                              name: 'ChargeSini',
-                              address: 'Kiara Bay',
-                              powerOutput: 50,
-                              distanceInMeters: 451,
-                              chargerType: 'DC',
-                              chargers: 3,
-                            ),
-
-                            SizedBox(width: 12),
-                            StationDetailCard(
-                              name: 'ChargeSini',
-                              address: 'Kiara Bay',
-                              powerOutput: 50,
-                              distanceInMeters: 451,
-                              chargerType: 'DC',
-                              chargers: 3,
-                            ),
-
-                            SizedBox(width: 16),
-                          ],
-                        ),
+                    // Second Row Icon Button
+                    SizedBox(height: 30),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomButtonIcon(text: 'Promo', width: 81),
+                          CustomButtonIcon(text: 'Subscriptions', width: 81),
+                          CustomButtonIcon(text: 'Referal', width: 81),
+                          CustomButtonIcon(text: 'Go for\nBusiness', width: 81),
+                        ],
                       ),
-                      SizedBox(height: 300),
-                    ],
-                  ),
+                    ),
+
+                    SizedBox(height: 3000),
+                  ],
                 ),
               ],
             ),

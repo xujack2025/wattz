@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'core/constants/app_colors.dart';
 import 'core/utils/app_routes.dart';
 import 'presentation/pages/onboarding/onboarding_page.dart';
-import 'presentation/widgets/blur_background_page.dart';
 import 'presentation/widgets/navigation_bar/custom_bottom_nav_bar.dart';
 import 'presentation/widgets/text_field/text_example.dart';
 
@@ -27,7 +26,7 @@ class MainApp extends StatelessWidget {
         ),
       ),
       // home: const CustomBottomNavBar(),
-      home: const BlurBackgroundPage(),
+      home: const CustomBottomNavBar(),
       routes: {
         AppRoutes.homePage: (context) => const CustomBottomNavBar(),
         AppRoutes.onBoardingPage: (context) => const OnBoardingPage(),
