@@ -6,32 +6,38 @@ import '../../../core/constants/app_text_styles.dart';
 class StationDetailCard extends StatelessWidget {
   const StationDetailCard({
     super.key,
+    required this.address,
+    required this.chargerType,
+    required this.chargers,
+    required this.isCompact,
+    required this.borderRadius,
     this.logoUrl,
     this.name,
-    required this.address,
     this.powerOutput,
     this.distanceInMeters,
     this.rating,
-    required this.chargerType,
-    required this.chargers,
     this.widgetRow,
     this.cardWidth,
-    required this.isCompact,
-    required this.borderRadius,
+    this.backgroundAlpha = 0.4,
+    this.borderAlpha = 0.2,
   });
 
+  final String address;
+  final String chargerType;
+  final int chargers;
   final String? logoUrl;
   final String? name;
-  final String address;
   final double? powerOutput;
   final double? distanceInMeters;
   final double? rating;
-  final String chargerType;
-  final int chargers;
   final Widget? widgetRow;
-  final double? cardWidth;
+
+  // UI Configuration & Styles (UI 布局与样式配置)
   final bool isCompact;
+  final double? cardWidth;
   final BorderRadius borderRadius;
+  final double backgroundAlpha;
+  final double borderAlpha;
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +45,11 @@ class StationDetailCard extends StatelessWidget {
       width: cardWidth,
       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: BoxDecoration(
-        color: AppColors.white.withValues(alpha: 0.4),
-        border: Border.all(color: AppColors.white.withValues(alpha: 0.2), width: 1),
+        color: AppColors.white.withValues(alpha: backgroundAlpha),
+        border: Border.all(
+          color: AppColors.white.withValues(alpha: borderAlpha),
+          width: 1,
+        ),
         borderRadius: borderRadius,
       ),
       child: isCompact ? _buildCompactCard() : _buildFullCard(),

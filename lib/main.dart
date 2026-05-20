@@ -25,7 +25,6 @@ class MainApp extends StatelessWidget {
           primary: AppColors.primary,
         ),
       ),
-      // home: const CustomBottomNavBar(),
       home: const CustomBottomNavBar(),
       routes: {
         AppRoutes.homePage: (context) => const CustomBottomNavBar(),

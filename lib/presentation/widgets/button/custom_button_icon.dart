@@ -7,19 +7,25 @@ class CustomButtonIcon extends StatelessWidget {
   const CustomButtonIcon({
     super.key,
     required this.text,
+    required this.icon,
     this.textAlign = TextAlign.center,
     this.textStyle,
-    this.width = 60,
-    required this.icon,
     this.iconColor = Colors.black,
+    this.width = 60.0,
+    this.glassAlpha = 0.12,
+    this.glassBorderAlpha = 0.2,
+    this.glassShadowAlpha = 0.1,
   });
 
-  final double? width;
   final String text;
-  final TextAlign? textAlign;
-  final TextStyle? textStyle;
   final IconData icon;
+  final TextAlign textAlign; 
+  final TextStyle? textStyle;
   final Color iconColor;
+  final double width; 
+  final double glassAlpha;
+  final double glassBorderAlpha;
+  final double glassShadowAlpha;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +37,10 @@ class CustomButtonIcon extends StatelessWidget {
             sigmaX: 0,
             sigmaY: 0,
             padding: 16,
-            widget: Icon(icon, color: iconColor),
+            backgroundAlpha: glassAlpha,
+            borderAlpha: glassBorderAlpha,
+            shadowAlpha: glassShadowAlpha,
+            child: Icon(icon, color: iconColor),
           ),
           SizedBox(height: 4),
           Text(
