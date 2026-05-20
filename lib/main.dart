@@ -1,11 +1,12 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
-import 'core/constants/app_colors.dart';
-import 'core/utils/app_routes.dart';
-import 'presentation/pages/onboarding/onboarding_page.dart';
-import 'presentation/widgets/navigation_bar/custom_bottom_nav_bar.dart';
-import 'presentation/widgets/text_field/text_example.dart';
+
+import 'core/routes/app_routes.dart';
+import 'core/themes/app_colors.dart';
+import 'core/widgets/navigation_bar/custom_bottom_nav_bar.dart';
+import 'core/widgets/text_field/text_example.dart';
+import 'features/onboarding/onboarding_page.dart';
 
 void main() {
   runApp(const MainApp());
