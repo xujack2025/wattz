@@ -4,7 +4,11 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
 
 class CustomOutlineButton extends StatelessWidget {
-  const CustomOutlineButton({super.key, required this.text, required this.onTap});
+  const CustomOutlineButton({
+    super.key,
+    required this.text,
+    required this.onTap,
+  });
 
   final String text;
   final VoidCallback onTap;
@@ -14,7 +18,7 @@ class CustomOutlineButton extends StatelessWidget {
     return Expanded(
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          side: BorderSide(color: AppColors.primary, width: 1),
+          side: const BorderSide(color: AppColors.primary, width: 1),
         ),
         onPressed: onTap,
         child: Text(

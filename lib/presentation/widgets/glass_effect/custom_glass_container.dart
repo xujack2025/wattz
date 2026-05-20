@@ -18,8 +18,8 @@ class CustomGlassContainer extends StatelessWidget {
   final Widget child;
   final double padding;
   final BoxShape shape;
-  final double sigmaX; 
-  final double sigmaY; 
+  final double sigmaX;
+  final double sigmaY;
   final double backgroundAlpha;
   final double borderAlpha;
   final double shadowAlpha;

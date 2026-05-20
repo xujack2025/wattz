@@ -17,7 +17,13 @@ class CustomBottomNavBar extends StatefulWidget {
 }
 
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
-  final appPages = const [HomePage(), MapPage(), ScanPage(), RewardPage(), ProfilePage()];
+  final appPages = const [
+    HomePage(),
+    MapPage(),
+    ScanPage(),
+    RewardPage(),
+    ProfilePage(),
+  ];
 
   int selectedTabIndex = 0;
   void onItemTapped(int index) {

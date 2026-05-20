@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
+import '../connector_type_container.dart';
 
 class StationDetailCard extends StatelessWidget {
   const StationDetailCard({
@@ -43,7 +44,7 @@ class StationDetailCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: cardWidth,
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: BoxDecoration(
         color: AppColors.white.withValues(alpha: backgroundAlpha),
         border: Border.all(
@@ -67,7 +68,7 @@ class StationDetailCard extends StatelessWidget {
             // Icon
             if (logoUrl != null) ...[
               Container(
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
@@ -76,7 +77,7 @@ class StationDetailCard extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
             ],
 
             // Text
@@ -84,7 +85,9 @@ class StationDetailCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Merchant
-                if (name != null) ...[Text(name!, style: AppTextStyles.labelSmall)],
+                if (name != null) ...[
+                  Text(name!, style: AppTextStyles.labelSmall),
+                ],
                 // Address
                 Text(address, style: AppTextStyles.titleMedium),
               ],
@@ -94,58 +97,31 @@ class StationDetailCard extends StatelessWidget {
 
         /// Row
         /// Charging Station Details
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Row(
           children: [
             // Details
             Text(
               "$powerOutput kW max  ·  ${distanceInMeters!.toInt()} m  ·  ⭐️ $rating",
-              style: AppTextStyles.labelSmall.copyWith(fontWeight: FontWeight.w500),
+              style: AppTextStyles.labelSmall.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),
 
         /// Current Type
-        SizedBox(height: 6),
-        Row(
-          children: [
-            Container(
-              height: 24,
-              width: 30,
-              // padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                border: BoxBorder.all(
-                  width: 1,
-                  style: BorderStyle.solid,
-                  color: AppColors.primary,
-                ),
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Center(
-                child: Text(
-                  chargerType,
-                  style: AppTextStyles.labelLarge.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
-                ),
-              ),
-            ),
-            // Quantity
-            SizedBox(width: 4),
-            Text(
-              chargers.toString(),
-              style: AppTextStyles.labelLarge.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary,
-              ),
-            ),
-          ],
+        const SizedBox(height: 6),
+
+        const ConnectorTypeContainer(
+          connectorType: "DC",
+          chargerIndex: 2,
+          borderRadius: 8,
         ),
 
         /// Row
         /// Button
-        SizedBox(height: 6),
+        const SizedBox(height: 6),
         if (widgetRow != null) ...[widgetRow!],
       ],
     );
@@ -165,12 +141,14 @@ class StationDetailCard extends StatelessWidget {
                 address,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.labelSmall.copyWith(fontWeight: FontWeight.bold),
+                style: AppTextStyles.labelSmall.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             // Station Logo
             Container(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
@@ -183,7 +161,7 @@ class StationDetailCard extends StatelessWidget {
         ),
 
         // Row charger type, quantity and distance
-        SizedBox(height: 2),
+        const SizedBox(height: 2),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -192,14 +170,14 @@ class StationDetailCard extends StatelessWidget {
               children: [
                 // Charger Type Icon
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 0.5, 0, 0.5),
+                  padding: const EdgeInsets.fromLTRB(0, 0.5, 0, 0.5),
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
                     border: BoxBorder.all(
                       width: 1,
                       style: BorderStyle.solid,
                       color: AppColors.primary,
                     ),
-                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: Center(
                     child: Text(
@@ -213,7 +191,7 @@ class StationDetailCard extends StatelessWidget {
                   ),
                 ),
                 // Quantity
-                SizedBox(width: 4),
+                const SizedBox(width: 4),
                 Text(
                   chargers.toString(),
                   style: AppTextStyles.labelSmall.copyWith(
@@ -223,7 +201,10 @@ class StationDetailCard extends StatelessWidget {
                 ),
               ],
             ),
-            Text("${distanceInMeters!.toInt()} m", style: AppTextStyles.labelSmall),
+            Text(
+              "${distanceInMeters!.toInt()} m",
+              style: AppTextStyles.labelSmall,
+            ),
           ],
         ),
       ],

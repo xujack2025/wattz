@@ -19,10 +19,10 @@ class CustomButtonIcon extends StatelessWidget {
 
   final String text;
   final IconData icon;
-  final TextAlign textAlign; 
+  final TextAlign textAlign;
   final TextStyle? textStyle;
   final Color iconColor;
-  final double width; 
+  final double width;
   final double glassAlpha;
   final double glassBorderAlpha;
   final double glassShadowAlpha;
@@ -42,11 +42,13 @@ class CustomButtonIcon extends StatelessWidget {
             shadowAlpha: glassShadowAlpha,
             child: Icon(icon, color: iconColor),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             text,
             textAlign: textAlign,
-            style: AppTextStyles.labelSmall.copyWith(fontWeight: FontWeight.w400),
+            style: AppTextStyles.labelSmall.copyWith(
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ],
       ),
