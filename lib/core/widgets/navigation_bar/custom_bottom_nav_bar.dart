@@ -4,7 +4,7 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../features/home/presentation/bloc/bottom_nav_bloc.dart';
+import '../../../features/home/presentation/bloc/navigation/bottom_nav_bloc.dart';
 import '../../../features/home/presentation/pages/home_page.dart';
 import '../../../features/map/presentation/pages/map_page.dart';
 import '../../../features/profile/presentation/pages/profile_page.dart';

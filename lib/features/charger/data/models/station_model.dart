@@ -1,7 +1,7 @@
-import '../../domain/entities/station.dart';
+import '../../domain/entities/stationEntity.dart';
 import 'charger_model.dart';
 
-class StationModel extends Station {
+class StationModel extends StationEntity {
   StationModel({
     required super.id,
     required super.name,

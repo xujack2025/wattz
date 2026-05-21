@@ -2,20 +2,20 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_media.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/themes/app_colors.dart';
-import '../../../../core/utils/all_station.dart';
 import '../../../../core/widgets/button/custom_button_icon.dart';
 import '../../../../core/widgets/button/custom_filled_button.dart';
 import '../../../../core/widgets/button/custom_outline_button.dart';
 import '../../../../core/widgets/button/title_text_button.dart';
 import '../../../../core/widgets/container/custom_glass_container.dart';
 import '../../../../core/widgets/container/image_container.dart';
-import '../../../charger/data/models/station_model.dart';
-import '../../../charger/domain/entities/charger.dart';
-import '../../../charger/domain/entities/station.dart';
+import '../../../charger/domain/entities/chargerEntity.dart';
+import '../../../charger/domain/entities/stationEntity.dart';
+import '../../../charger/presentation/bloc/station_bloc.dart';
 import '../../../charger/presentation/widgets/nearby_station_detail_card.dart';
 import '../../../charger/presentation/widgets/station_image_card.dart';
 
@@ -41,9 +41,7 @@ class _HomePageState extends State<HomePage> {
   double _glassBorderAlpha = 0.2;
   double _glassShadowAlpha = 0.1;
 
-  late final List<Station> _stations = stationList.map(StationModel.fromJson).toList();
-
-  List<ConnectorDisplay> _connectorDisplaysForStation(Station station) {
+  List<ConnectorDisplay> _connectorDisplaysForStation(StationEntity station) {
     if (station.chargers.isEmpty) {
       return const [];
     }
@@ -59,11 +57,11 @@ class _HomePageState extends State<HomePage> {
         .toList();
   }
 
-  String _connectorLabelForCharger(Charger charger) {
-    if (charger is ACCharger) {
+  String _connectorLabelForCharger(ChargerEntity charger) {
+    if (charger is ACChargerEntity) {
       return _connectorLabelFromType(charger.connectorType);
     }
-    if (charger is DCCharger) {
+    if (charger is DCChargerEntity) {
       return _connectorLabelFromType(charger.connectorType);
     }
     return 'DC';
@@ -138,11 +136,7 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Stack(
                 children: [
-                  Image.asset(
-                    AppMedia.ezchargeIcon,
-                    fit: BoxFit.fitWidth,
-                    scale: 5,
-                  ),
+                  Image.asset(AppMedia.ezchargeIcon, fit: BoxFit.fitWidth, scale: 5),
                 ],
               ),
             ),
@@ -363,34 +357,68 @@ class _HomePageState extends State<HomePage> {
 
                     // Shopping Station List
                     const SizedBox(height: 30),
-                    const TitleTextButton(text: "While You Shop"),
-                    const SizedBox(height: 6),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Row(
-                        children: [
-                          for (int i = 0; i < _stations.length; i++) ...[
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.homePage,
-                                  arguments: {"index": i},
-                                );
-                              },
-                              child: StationImageCard(
-                                stationName: _stations[i].name,
-                                stationInfo: "3 km · Kuala Lumpur",
-                                stationImageUrl: _defaultStationImageUrl,
-                                stationLogo: _defaultStationLogoUrl,
-                                connectors: _connectorDisplaysForStation(_stations[i]),
-                              ),
-                            ),
-                            if (i < _stations.length - 1) const SizedBox(width: 14),
-                          ],
-                        ],
-                      ),
+                    Column(
+                      children: [
+                        const TitleTextButton(text: "While You Shop"),
+                        const SizedBox(height: 6),
+                        BlocBuilder<StationBloc, StationState>(
+                          builder: (context, state) {
+                            if (state is StationInitial) {
+                              context.read<StationBloc>().add(StationsRequested());
+                              return Center(child: CircularProgressIndicator());
+                            }
+                            if (state is StationLoading) {
+                              return const SizedBox(
+                                height: 190,
+                                child: Center(child: CircularProgressIndicator()),
+                              );
+                            }
+
+                            if (state is StationFailure) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Text(state.message),
+                              );
+                            }
+
+                            if (state is StationsLoaded) {
+                              final stations = state.stations;
+                              return SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Row(
+                                  children: [
+                                    for (int i = 0; i < stations.length; i++) ...[
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            AppRoutes.homePage,
+                                            arguments: {"index": i},
+                                          );
+                                        },
+                                        child: StationImageCard(
+                                          stationName: stations[i].name,
+                                          stationInfo: "3 km · Kuala Lumpur",
+                                          stationImageUrl: _defaultStationImageUrl,
+                                          stationLogo: _defaultStationLogoUrl,
+                                          connectors: _connectorDisplaysForStation(
+                                            stations[i],
+                                          ),
+                                        ),
+                                      ),
+                                      if (i < stations.length - 1)
+                                        const SizedBox(width: 14),
+                                    ],
+                                  ],
+                                ),
+                              );
+                            }
+
+                            return const SizedBox.shrink();
+                          },
+                        ),
+                      ],
                     ),
 
                     // On The Road Station List
@@ -428,4 +456,62 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  // Widget _buildShoppingStationsSection() {
+  //   return Column(
+  //     children: [
+  //       const TitleTextButton(text: "While You Shop"),
+  //       const SizedBox(height: 6),
+  //       BlocBuilder<StationBloc, StationState>(
+  //         builder: (context, state) {
+  //           if (state is StationLoading || state is StationInitial) {
+  //             return const SizedBox(
+  //               height: 190,
+  //               child: Center(child: CircularProgressIndicator()),
+  //             );
+  //           }
+
+  //           if (state is StationFailure) {
+  //             return Padding(
+  //               padding: const EdgeInsets.symmetric(horizontal: 16),
+  //               child: Text(state.message),
+  //             );
+  //           }
+
+  //           if (state is ShoppingStationsLoaded) {
+  //             return _buildShoppingStationList(context, state.stations);
+  //           }
+
+  //           return const SizedBox.shrink();
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
+
+  // Widget _buildShoppingStationList(BuildContext context, List<Station> stations) {
+  //   return SingleChildScrollView(
+  //     scrollDirection: Axis.horizontal,
+  //     padding: const EdgeInsets.only(left: 16),
+  //     child: Row(
+  //       children: [
+  //         for (int i = 0; i < stations.length; i++) ...[
+  //           GestureDetector(
+  //             onTap: () {
+  //               Navigator.pushNamed(context, AppRoutes.homePage, arguments: {"index": i});
+  //             },
+  //             child: StationImageCard(
+  //               stationName: stations[i].name,
+  //               stationInfo: "3 km · Kuala Lumpur",
+  //               stationImageUrl: _defaultStationImageUrl,
+  //               stationLogo: _defaultStationLogoUrl,
+  //               connectors: _connectorDisplaysForStation(stations[i]),
+  //             ),
+  //           ),
+  //           if (i < stations.length - 1) const SizedBox(width: 14),
+  //         ],
+  //       ],
+  //     ),
+  //   );
+  // }
 }

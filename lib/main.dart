@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/routes/app_routes.dart';
 import 'core/themes/app_colors.dart';
 import 'core/widgets/navigation_bar/custom_bottom_nav_bar.dart';
-import 'features/charger/data/datasources/station_mock_datasource.dart';
+import 'features/charger/data/datasources/mock_station_datasource.dart';
 import 'features/charger/data/repositories/station_repository_impl.dart';
 import 'features/charger/domain/usecases/get_shopping_stations.dart';
 import 'features/charger/presentation/bloc/station_bloc.dart';
-import 'features/home/presentation/bloc/bottom_nav_bloc.dart';
+import 'features/home/presentation/bloc/navigation/bottom_nav_bloc.dart';
 import 'features/map/presentation/pages/map_page.dart';
 import 'features/onboarding/onboarding_page.dart';
 import 'features/profile/presentation/pages/profile_page.dart';
@@ -29,12 +29,11 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (context) => BottomNavBloc()),
         BlocProvider(
           create: (context) {
-            const dataSource = StationMockDataSourceImpl();
-            const repository = StationRepositoryImpl(dataSource);
-            const getShoppingStations = GetShoppingStations(repository);
+            final dataSource = MockStationDataSource();
+            final repository = StationRepositoryImpl(dataSource);
+            final getStationsUseCase = GetStationsUseCase(repository);
 
-            return StationBloc(getShoppingStations: getShoppingStations)
-              ..add(const ShoppingStationsRequested());
+            return StationBloc(getStationsUseCase);
           },
         ),
       ],
