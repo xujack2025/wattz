@@ -12,6 +12,14 @@ class ImageContainer extends StatelessWidget {
   final double? height;
   final String image;
 
+  ImageProvider get imageProvider {
+    if (image.startsWith('http')) {
+      return NetworkImage(image);
+    }
+
+    return AssetImage(image);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +27,7 @@ class ImageContainer extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(image)),
+        image: DecorationImage(fit: BoxFit.cover, image: imageProvider),
       ),
     );
   }

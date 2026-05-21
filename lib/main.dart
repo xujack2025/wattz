@@ -6,7 +6,7 @@ import 'core/themes/app_colors.dart';
 import 'core/widgets/navigation_bar/custom_bottom_nav_bar.dart';
 import 'features/charger/data/datasources/mock_station_datasource.dart';
 import 'features/charger/data/repositories/station_repository_impl.dart';
-import 'features/charger/domain/usecases/get_shopping_stations.dart';
+import 'features/charger/domain/usecases/get_stations_usecase.dart';
 import 'features/charger/presentation/bloc/station_bloc.dart';
 import 'features/home/presentation/bloc/navigation/bottom_nav_bloc.dart';
 import 'features/map/presentation/pages/map_page.dart';

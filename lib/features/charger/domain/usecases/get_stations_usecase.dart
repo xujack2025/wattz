@@ -1,4 +1,4 @@
-import '../entities/stationEntity.dart';
+import '../entities/station_entity.dart';
 import '../repositories/station_repository.dart';
 
 class GetStationsUseCase {

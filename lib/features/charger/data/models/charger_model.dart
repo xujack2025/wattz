@@ -1,4 +1,4 @@
-import '../../domain/entities/chargerEntity.dart';
+import '../../domain/entities/charger_entity.dart';
 
 class ChargerModel {
   static ChargerEntity fromJson(Map<String, dynamic> json) {
@@ -9,25 +9,13 @@ class ChargerModel {
     final sessionFee = (json['sessionFee'] as num?)?.toDouble() ?? 0.0;
     final ratePerKwh = (json['ratePerKwh'] as num?)?.toDouble() ?? 0.0;
 
-    final isAc = connectorType == ConnectorType.type2;
-    if (isAc) {
-      return ACChargerEntity(
-        connectorType: connectorType,
-        id: id,
-        status: status,
-        powerOutput: powerOutput,
-        sessionFee: sessionFee,
-        ratePerKwh: ratePerKwh,
-      );
-    }
-
-    return DCChargerEntity(
-      connectorType: connectorType,
+    return ChargerEntity(
       id: id,
       status: status,
       powerOutput: powerOutput,
       sessionFee: sessionFee,
       ratePerKwh: ratePerKwh,
+      connectorType: connectorType,
     );
   }
 

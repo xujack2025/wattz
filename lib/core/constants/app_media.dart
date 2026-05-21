@@ -1,4 +1,5 @@
 class AppMedia {
+  /// Assets
   static const basePath = 'assets/images/';
 
   static const charging = '${basePath}charging/';
@@ -25,4 +26,9 @@ class AppMedia {
   static const welcome3 = '${welcome}schedule_charging3.png';
 
   static const profile = '${basePath}placeholder.png';
+
+  /// Network
+  static const placehold = 'https://placehold.co/250x150.png';
+  static const logoUrl =
+      'https://play-lh.googleusercontent.com/BkSW_w9u43LTSw-mulSssIO4LRyvLUJntS2nrhcMmItDQ45LJUhfD2pqXovTHJWr7f0I=w240-h480-rw';
 }

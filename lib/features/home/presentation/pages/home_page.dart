@@ -1,23 +1,20 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_media.dart';
-import '../../../../core/routes/app_routes.dart';
 import '../../../../core/themes/app_colors.dart';
-import '../../../../core/widgets/button/custom_button_icon.dart';
-import '../../../../core/widgets/button/custom_filled_button.dart';
-import '../../../../core/widgets/button/custom_outline_button.dart';
 import '../../../../core/widgets/button/title_text_button.dart';
-import '../../../../core/widgets/container/custom_glass_container.dart';
 import '../../../../core/widgets/container/image_container.dart';
-import '../../../charger/domain/entities/chargerEntity.dart';
-import '../../../charger/domain/entities/stationEntity.dart';
 import '../../../charger/presentation/bloc/station_bloc.dart';
-import '../../../charger/presentation/widgets/nearby_station_detail_card.dart';
 import '../../../charger/presentation/widgets/station_image_card.dart';
+import '../widgets/home_background_container.dart';
+import '../widgets/home_header_quick_access_card.dart';
+import '../widgets/home_notification.dart';
+import '../widgets/home_quick_access_card.dart';
+import '../widgets/home_quick_action_grid_view.dart';
+import '../widgets/home_station_shop_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,10 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const _defaultStationImageUrl = 'https://placehold.co/250x150.png';
-  static const _defaultStationLogoUrl =
-      'https://play-lh.googleusercontent.com/BkSW_w9u43LTSw-mulSssIO4LRyvLUJntS2nrhcMmItDQ45LJUhfD2pqXovTHJWr7f0I=w240-h480-rw';
-
   final _scrollController = ScrollController();
   double blurValue = 0;
 
@@ -40,48 +33,6 @@ class _HomePageState extends State<HomePage> {
   double _glassAlpha = 0.4;
   double _glassBorderAlpha = 0.2;
   double _glassShadowAlpha = 0.1;
-
-  List<ConnectorDisplay> _connectorDisplaysForStation(StationEntity station) {
-    if (station.chargers.isEmpty) {
-      return const [];
-    }
-
-    final counts = <String, int>{};
-    for (final charger in station.chargers) {
-      final label = _connectorLabelForCharger(charger);
-      counts[label] = (counts[label] ?? 0) + 1;
-    }
-
-    return counts.entries
-        .map((entry) => ConnectorDisplay(type: entry.key, count: entry.value))
-        .toList();
-  }
-
-  String _connectorLabelForCharger(ChargerEntity charger) {
-    if (charger is ACChargerEntity) {
-      return _connectorLabelFromType(charger.connectorType);
-    }
-    if (charger is DCChargerEntity) {
-      return _connectorLabelFromType(charger.connectorType);
-    }
-    return 'DC';
-  }
-
-  String _connectorLabelFromType(ConnectorType type) {
-    switch (type) {
-      case ConnectorType.type2:
-        return 'AC';
-      case ConnectorType.ccs2:
-        return 'DC';
-      case ConnectorType.chademo:
-        return 'DC';
-    }
-  }
-
-  Future<void> _handleRefresh() async {
-    await Future.delayed(const Duration(seconds: 1));
-    debugPrint("Data reloaded!");
-  }
 
   @override
   void initState() {
@@ -113,33 +64,17 @@ class _HomePageState extends State<HomePage> {
     return RefreshIndicator(
       edgeOffset: 60,
       displacement: 0,
-      onRefresh: _handleRefresh,
+      onRefresh: () async {
+        context.read<StationBloc>().add(StationsRequested());
+        Future.delayed(Duration(seconds: 1));
+        debugPrint("Data reloaded!");
+      },
       child: Scaffold(
         backgroundColor: AppColors.bgColor,
         body: Stack(
           children: [
             // Container Background
-            Container(
-              padding: const EdgeInsets.only(left: 8, top: 40),
-              width: double.infinity,
-              height: 400,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.2, 1],
-                  colors: [
-                    AppColors.primary.withValues(alpha: (100 - blurValue) / 100),
-                    AppColors.bgColor.withValues(alpha: 0.8),
-                  ],
-                ),
-              ),
-              child: Stack(
-                children: [
-                  Image.asset(AppMedia.ezchargeIcon, fit: BoxFit.fitWidth, scale: 5),
-                ],
-              ),
-            ),
+            HomeBackgroundContainer(blurValue: blurValue),
 
             // Blur Layer
             ClipRRect(
@@ -160,182 +95,32 @@ class _HomePageState extends State<HomePage> {
                 Column(
                   children: [
                     // Notification
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(right: 16),
-                          child: ClipOval(
-                            child: CustomGlassContainer(
-                              padding: 12,
-                              backgroundAlpha: _glassAlpha,
-                              borderAlpha: _glassBorderAlpha,
-                              shadowAlpha: _glassShadowAlpha,
-                              child: const Icon(
-                                CupertinoIcons.bell_fill,
-                                color: AppColors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    HomeNotification(
+                      glassAlpha: _glassAlpha,
+                      glassBorderAlpha: _glassBorderAlpha,
+                      glassShadowAlpha: _glassShadowAlpha,
                     ),
 
                     // Station Charger Quick Access Card
                     const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: StationDetailCard(
-                        isCompact: false,
-                        backgroundAlpha: _cardAlpha,
-                        borderAlpha: _cardBorderAlpha,
-                        logoUrl:
-                            'https://play-lh.googleusercontent.com/BkSW_w9u43LTSw-mulSssIO4LRyvLUJntS2nrhcMmItDQ45LJUhfD2pqXovTHJWr7f0I=w240-h480-rw',
-                        name: 'ChargeSini',
-                        address: '[PUBLIC] FORTUNE CENTRA \n(COMMERCIAL) (Commercial)',
-                        chargerType: 'DC',
-                        chargers: 2,
-                        widgetRow: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomOutlineButton(text: "Scan QR", onTap: () {}),
-                            const SizedBox(width: 16),
-                            CustomFilledButton(text: "View Chargers", onTap: () {}),
-                          ],
-                        ),
-                        powerOutput: 50,
-                        distanceInMeters: 451,
-                        rating: 4.0,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                    HomeHeaderQuickAccessCard(
+                      cardAlpha: _cardAlpha,
+                      cardBorderAlpha: _cardBorderAlpha,
                     ),
 
                     // Station List
                     const SizedBox(height: 30),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: StationDetailCard(
-                              isCompact: true,
-                              borderRadius: BorderRadius.circular(20),
-                              backgroundAlpha: _cardAlpha,
-                              borderAlpha: _cardBorderAlpha,
-                              logoUrl:
-                                  'https://play-lh.googleusercontent.com/BkSW_w9u43LTSw-mulSssIO4LRyvLUJntS2nrhcMmItDQ45LJUhfD2pqXovTHJWr7f0I=w240-h480-rw',
-                              address: 'Kiara Bay by Master Card',
-                              chargerType: 'DC',
-                              chargers: 3,
-                              distanceInMeters: 211,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: StationDetailCard(
-                              isCompact: true,
-                              borderRadius: BorderRadius.circular(20),
-                              backgroundAlpha: _cardAlpha,
-                              borderAlpha: _cardBorderAlpha,
-                              logoUrl:
-                                  'https://play-lh.googleusercontent.com/BkSW_w9u43LTSw-mulSssIO4LRyvLUJntS2nrhcMmItDQ45LJUhfD2pqXovTHJWr7f0I=w240-h480-rw',
-                              address:
-                                  '[PUBLIC] FORTUNE CENTRA (COMMERCIAL) (Commercial)',
-                              chargerType: 'DC',
-                              chargers: 3,
-                              distanceInMeters: 211,
-                            ),
-                          ),
-                        ],
-                      ),
+                    HomeQuickAccessCard(
+                      cardAlpha: _cardAlpha,
+                      cardBorderAlpha: _cardBorderAlpha,
                     ),
 
                     // First Row Icon Button
                     const SizedBox(height: 30),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomButtonIcon(
-                            text: 'DCFC',
-                            width: 81,
-                            icon: CupertinoIcons.bolt,
-                            glassAlpha: _glassAlpha,
-                            glassBorderAlpha: _glassBorderAlpha,
-                            glassShadowAlpha: _glassShadowAlpha,
-                          ),
-                          CustomButtonIcon(
-                            text: 'AutoCharge',
-                            width: 81,
-                            icon: CupertinoIcons.bolt_badge_a,
-                            glassAlpha: _glassAlpha,
-                            glassBorderAlpha: _glassBorderAlpha,
-                            glassShadowAlpha: _glassShadowAlpha,
-                          ),
-                          CustomButtonIcon(
-                            text: 'Offline',
-                            width: 81,
-                            icon: CupertinoIcons.clear_circled,
-                            glassAlpha: _glassAlpha,
-                            glassBorderAlpha: _glassBorderAlpha,
-                            glassShadowAlpha: _glassShadowAlpha,
-                          ),
-                          CustomButtonIcon(
-                            text: 'NewSites',
-                            width: 81,
-                            icon: CupertinoIcons.location,
-                            glassAlpha: _glassAlpha,
-                            glassBorderAlpha: _glassBorderAlpha,
-                            glassShadowAlpha: _glassShadowAlpha,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Second Row Icon Button
-                    const SizedBox(height: 30),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomButtonIcon(
-                            text: 'Promo',
-                            width: 81,
-                            icon: CupertinoIcons.ticket,
-                            glassAlpha: _glassAlpha,
-                            glassBorderAlpha: _glassBorderAlpha,
-                            glassShadowAlpha: _glassShadowAlpha,
-                          ),
-                          CustomButtonIcon(
-                            text: 'Subscriptions',
-                            width: 81,
-                            icon: CupertinoIcons.creditcard,
-                            glassAlpha: _glassAlpha,
-                            glassBorderAlpha: _glassBorderAlpha,
-                            glassShadowAlpha: _glassShadowAlpha,
-                          ),
-                          CustomButtonIcon(
-                            text: 'Referal',
-                            width: 81,
-                            icon: CupertinoIcons.person_2,
-                            glassAlpha: _glassAlpha,
-                            glassBorderAlpha: _glassBorderAlpha,
-                            glassShadowAlpha: _glassShadowAlpha,
-                          ),
-                          CustomButtonIcon(
-                            text: 'Go for\nBusiness',
-                            width: 81,
-                            icon: CupertinoIcons.briefcase,
-                            glassAlpha: _glassAlpha,
-                            glassBorderAlpha: _glassBorderAlpha,
-                            glassShadowAlpha: _glassShadowAlpha,
-                          ),
-                        ],
-                      ),
+                    HomeQuickActionGridView(
+                      glassAlpha: _glassAlpha,
+                      glassBorderAlpha: _glassBorderAlpha,
+                      glassShadowAlpha: _glassShadowAlpha,
                     ),
 
                     // New Poster
@@ -357,73 +142,13 @@ class _HomePageState extends State<HomePage> {
 
                     // Shopping Station List
                     const SizedBox(height: 30),
-                    Column(
-                      children: [
-                        const TitleTextButton(text: "While You Shop"),
-                        const SizedBox(height: 6),
-                        BlocBuilder<StationBloc, StationState>(
-                          builder: (context, state) {
-                            if (state is StationInitial) {
-                              context.read<StationBloc>().add(StationsRequested());
-                              return Center(child: CircularProgressIndicator());
-                            }
-                            if (state is StationLoading) {
-                              return const SizedBox(
-                                height: 190,
-                                child: Center(child: CircularProgressIndicator()),
-                              );
-                            }
+                    HomeStationShopList(),
 
-                            if (state is StationFailure) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                child: Text(state.message),
-                              );
-                            }
-
-                            if (state is StationsLoaded) {
-                              final stations = state.stations;
-                              return SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                padding: const EdgeInsets.only(left: 16),
-                                child: Row(
-                                  children: [
-                                    for (int i = 0; i < stations.length; i++) ...[
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            AppRoutes.homePage,
-                                            arguments: {"index": i},
-                                          );
-                                        },
-                                        child: StationImageCard(
-                                          stationName: stations[i].name,
-                                          stationInfo: "3 km · Kuala Lumpur",
-                                          stationImageUrl: _defaultStationImageUrl,
-                                          stationLogo: _defaultStationLogoUrl,
-                                          connectors: _connectorDisplaysForStation(
-                                            stations[i],
-                                          ),
-                                        ),
-                                      ),
-                                      if (i < stations.length - 1)
-                                        const SizedBox(width: 14),
-                                    ],
-                                  ],
-                                ),
-                              );
-                            }
-
-                            return const SizedBox.shrink();
-                          },
-                        ),
-                      ],
-                    ),
-
-                    // On The Road Station List
+                    // On The Road Header
                     const SizedBox(height: 30),
                     const TitleTextButton(text: "While On The Road"),
+
+                    // On The Road Station List
                     const SizedBox(height: 6),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -435,8 +160,7 @@ class _HomePageState extends State<HomePage> {
                               stationName: "Petronas Penchana link",
                               stationInfo: "6.3 km · Kuala Lumpur",
                               stationImageUrl: "https://placehold.co/250x150.png",
-                              stationLogo:
-                                  "https://play-lh.googleusercontent.com/BkSW_w9u43LTSw-mulSssIO4LRyvLUJntS2nrhcMmItDQ45LJUhfD2pqXovTHJWr7f0I=w240-h480-rw",
+                              stationLogo: AppMedia.logoUrl,
                               connectors: const [ConnectorDisplay(type: "DC", count: 3)],
                             ),
                             (i < 4)
@@ -446,6 +170,8 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
+
+                    /// Bottom Safe Area
                     SizedBox(height: 70),
                   ],
                 ),
@@ -456,62 +182,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  // Widget _buildShoppingStationsSection() {
-  //   return Column(
-  //     children: [
-  //       const TitleTextButton(text: "While You Shop"),
-  //       const SizedBox(height: 6),
-  //       BlocBuilder<StationBloc, StationState>(
-  //         builder: (context, state) {
-  //           if (state is StationLoading || state is StationInitial) {
-  //             return const SizedBox(
-  //               height: 190,
-  //               child: Center(child: CircularProgressIndicator()),
-  //             );
-  //           }
-
-  //           if (state is StationFailure) {
-  //             return Padding(
-  //               padding: const EdgeInsets.symmetric(horizontal: 16),
-  //               child: Text(state.message),
-  //             );
-  //           }
-
-  //           if (state is ShoppingStationsLoaded) {
-  //             return _buildShoppingStationList(context, state.stations);
-  //           }
-
-  //           return const SizedBox.shrink();
-  //         },
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // Widget _buildShoppingStationList(BuildContext context, List<Station> stations) {
-  //   return SingleChildScrollView(
-  //     scrollDirection: Axis.horizontal,
-  //     padding: const EdgeInsets.only(left: 16),
-  //     child: Row(
-  //       children: [
-  //         for (int i = 0; i < stations.length; i++) ...[
-  //           GestureDetector(
-  //             onTap: () {
-  //               Navigator.pushNamed(context, AppRoutes.homePage, arguments: {"index": i});
-  //             },
-  //             child: StationImageCard(
-  //               stationName: stations[i].name,
-  //               stationInfo: "3 km · Kuala Lumpur",
-  //               stationImageUrl: _defaultStationImageUrl,
-  //               stationLogo: _defaultStationLogoUrl,
-  //               connectors: _connectorDisplaysForStation(stations[i]),
-  //             ),
-  //           ),
-  //           if (i < stations.length - 1) const SizedBox(width: 14),
-  //         ],
-  //       ],
-  //     ),
-  //   );
-  // }
 }

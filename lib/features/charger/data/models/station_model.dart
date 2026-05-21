@@ -1,4 +1,4 @@
-import '../../domain/entities/stationEntity.dart';
+import '../../domain/entities/station_entity.dart';
 import 'charger_model.dart';
 
 class StationModel extends StationEntity {

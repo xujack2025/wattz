@@ -1,4 +1,4 @@
-import '../../domain/entities/stationEntity.dart';
+import '../../domain/entities/station_entity.dart';
 import '../../domain/repositories/station_repository.dart';
 import '../datasources/mock_station_datasource.dart';
 

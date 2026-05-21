@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'chargerEntity.dart';
+import 'charger_entity.dart';
 
 enum StationStatus { available, busy, offline, maintenance }
 

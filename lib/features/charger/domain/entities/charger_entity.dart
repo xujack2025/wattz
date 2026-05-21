@@ -2,12 +2,13 @@ enum ChargerStatus { available, charging, offline, maintenance }
 
 enum ConnectorType { type2, ccs2, chademo }
 
-abstract class ChargerEntity {
+class ChargerEntity {
   final String id;
   final ChargerStatus status;
   final double powerOutput;
   final double sessionFee;
   final double ratePerKwh;
+  final ConnectorType connectorType;
 
   const ChargerEntity({
     required this.id,
@@ -15,6 +16,7 @@ abstract class ChargerEntity {
     required this.powerOutput,
     required this.sessionFee,
     required this.ratePerKwh,
+    required this.connectorType,
   });
 
   double calculateFee(double kwh) {
@@ -23,30 +25,6 @@ abstract class ChargerEntity {
   }
 
   bool get isAvailable => status == ChargerStatus.available;
-}
 
-class ACChargerEntity extends ChargerEntity {
-  final ConnectorType connectorType;
-
-  ACChargerEntity({
-    required this.connectorType,
-    required super.id,
-    required super.status,
-    required super.powerOutput,
-    required super.sessionFee,
-    required super.ratePerKwh,
-  });
-}
-
-class DCChargerEntity extends ChargerEntity {
-  final ConnectorType connectorType;
-
-  DCChargerEntity({
-    required this.connectorType,
-    required super.id,
-    required super.status,
-    required super.powerOutput,
-    required super.sessionFee,
-    required super.ratePerKwh,
-  });
+  bool get isAC => connectorType == ConnectorType.type2;
 }
