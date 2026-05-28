@@ -26,7 +26,9 @@ class HomeBackgroundContainer extends StatelessWidget {
         ),
       ),
       child: Stack(
-        children: [Image.asset(AppMedia.ezchargeIcon, fit: BoxFit.fitWidth, scale: 5)],
+        children: [
+          Image.asset(AppMedia.ezchargeIcon, fit: BoxFit.fitWidth, scale: 5),
+        ],
       ),
     );
   }

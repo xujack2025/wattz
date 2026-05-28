@@ -23,6 +23,10 @@ class StationEntity extends Equatable {
     required List<ChargerEntity> chargers,
   }) : chargers = List.unmodifiable(chargers);
 
+  List<ChargerEntity> getAllCharger() {
+    return chargers;
+  }
+
   List<ChargerEntity> getAvailableChargers() {
     return chargers.where((charger) => charger.isAvailable).toList();
   }

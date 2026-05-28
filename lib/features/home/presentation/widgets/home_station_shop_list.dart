@@ -66,8 +66,7 @@ class HomeStationShopList extends StatelessWidget {
                     for (int i = 0; i < stations.length; i++) ...[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(
-                            context,
+                          Navigator.of(context).pushNamed(
                             AppRoutes.homePage,
                             arguments: {"index": i},
                           );

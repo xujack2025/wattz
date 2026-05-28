@@ -30,7 +30,10 @@ class HomeNotification extends StatelessWidget {
               backgroundAlpha: _glassAlpha,
               borderAlpha: _glassBorderAlpha,
               shadowAlpha: _glassShadowAlpha,
-              child: const Icon(CupertinoIcons.bell_fill, color: AppColors.white),
+              child: const Icon(
+                CupertinoIcons.bell_fill,
+                color: AppColors.white,
+              ),
             ),
           ),
         ),

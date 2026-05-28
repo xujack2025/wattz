@@ -18,7 +18,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd() {
-    Navigator.pushNamed(context, AppRoutes.homePage);
+    Navigator.of(context).pushNamed(AppRoutes.homePage);
   }
 
   @override
@@ -52,7 +52,8 @@ class OnBoardingPageState extends State<OnBoardingPage> {
       pages: [
         PageViewModel(
           title: "Smart Charging, Zero Waiting",
-          body: "Search, reserve, and power up. No more queueing at the station.",
+          body:
+              "Search, reserve, and power up. No more queueing at the station.",
           image: const ImageContainer(
             width: double.infinity,
             height: 350,
@@ -62,7 +63,8 @@ class OnBoardingPageState extends State<OnBoardingPage> {
         ),
         PageViewModel(
           title: "Seamless Multi-Payment",
-          body: "Pay your way. Supporting cards, \ne-wallets, and quick checkout.",
+          body:
+              "Pay your way. Supporting cards, \ne-wallets, and quick checkout.",
           image: const ImageContainer(
             width: double.infinity,
             height: 350,

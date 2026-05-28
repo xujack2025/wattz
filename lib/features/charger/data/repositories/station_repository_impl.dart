@@ -1,13 +1,13 @@
 import '../../domain/entities/station_entity.dart';
 import '../../domain/repositories/station_repository.dart';
-import '../datasources/mock_station_datasource.dart';
+import '../datasources/station_local_datasource.dart';
 
 class StationRepositoryImpl implements StationRepository {
-  final MockStationDataSource dataSource;
-  StationRepositoryImpl(this.dataSource);
+  StationRepositoryImpl(this.localdataSource);
+  final StationLocalDataSource localdataSource;
 
   @override
   Future<List<StationEntity>> getStations() async {
-    return await dataSource.getStations();
-  } 
+    return await localdataSource.getStations();
+  }
 }

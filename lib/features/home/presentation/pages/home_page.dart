@@ -131,7 +131,9 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         children: [
                           for (int i = 0; i < 5; i++) ...[
-                            ImageContainer(image: "https://placehold.co/250x150.png"),
+                            ImageContainer(
+                              image: "https://placehold.co/250x150.png",
+                            ),
                             (i < 5)
                                 ? const SizedBox(width: 14)
                                 : const SizedBox(width: 16),
@@ -159,9 +161,12 @@ class _HomePageState extends State<HomePage> {
                             StationImageCard(
                               stationName: "Petronas Penchana link",
                               stationInfo: "6.3 km · Kuala Lumpur",
-                              stationImageUrl: "https://placehold.co/250x150.png",
+                              stationImageUrl:
+                                  "https://placehold.co/250x150.png",
                               stationLogo: AppMedia.logoUrl,
-                              connectors: const [ConnectorDisplay(type: "DC", count: 3)],
+                              connectors: const [
+                                ConnectorDisplay(type: "DC", count: 3),
+                              ],
                             ),
                             (i < 4)
                                 ? const SizedBox(width: 14)

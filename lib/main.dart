@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/routes/app_routes.dart';
 import 'core/themes/app_colors.dart';
 import 'core/widgets/navigation_bar/custom_bottom_nav_bar.dart';
-import 'features/charger/data/datasources/mock_station_datasource.dart';
+import 'features/charger/data/datasources/station_local_datasource.dart';
 import 'features/charger/data/repositories/station_repository_impl.dart';
 import 'features/charger/domain/usecases/get_stations_usecase.dart';
 import 'features/charger/presentation/bloc/station_bloc.dart';
@@ -29,8 +29,8 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (context) => BottomNavBloc()),
         BlocProvider(
           create: (context) {
-            final dataSource = MockStationDataSource();
-            final repository = StationRepositoryImpl(dataSource);
+            final localdataSource = StationLocalDataSourceImpl();
+            final repository = StationRepositoryImpl(localdataSource);
             final getStationsUseCase = GetStationsUseCase(repository);
 
             return StationBloc(getStationsUseCase);
