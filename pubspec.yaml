@@ -11,6 +11,7 @@ dependencies:
   cupertino_icons: ^1.0.9
   cupertino_native: ^0.1.1
   equatable: ^2.0.8
+  firebase_core: ^4.9.0
   fluentui_icons: ^1.0.0
   flutter:
     sdk: flutter

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,8 +15,13 @@ import 'features/onboarding/onboarding_page.dart';
 import 'features/profile/presentation/pages/profile_page.dart';
 import 'features/reward/presentation/pages/reward_page.dart';
 import 'features/scan/presentation/pages/scan_page.dart';
+import 'firebase_options.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MainApp());
 }
 
