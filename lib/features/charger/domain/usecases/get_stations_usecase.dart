@@ -1,5 +1,5 @@
 import '../entities/station_entity.dart';
-import '../repositories/station_repository.dart';
+import '../repos/station_repository.dart';
 
 class GetStationsUseCase {
   const GetStationsUseCase(this.repository);

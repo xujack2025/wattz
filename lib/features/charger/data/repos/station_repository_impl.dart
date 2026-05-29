@@ -1,5 +1,5 @@
 import '../../domain/entities/station_entity.dart';
-import '../../domain/repositories/station_repository.dart';
+import '../../domain/repos/station_repository.dart';
 import '../datasources/station_local_datasource.dart';
 
 class StationRepositoryImpl implements StationRepository {

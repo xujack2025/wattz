@@ -11,12 +11,14 @@ dependencies:
   cupertino_icons: ^1.0.9
   cupertino_native: ^0.1.1
   equatable: ^2.0.8
+  firebase_auth: ^6.5.1
   firebase_core: ^4.9.0
   fluentui_icons: ^1.0.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
   flutter_launcher_icons: ^0.14.4
+  google_sign_in: ^7.2.0
   introduction_screen: ^4.0.0
 
 dev_dependencies:
