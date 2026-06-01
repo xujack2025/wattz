@@ -4,18 +4,18 @@ enum UserStatus { active, suspended, blocked }
 
 enum UserRole { customer, admin }
 
-abstract class User extends Equatable {
+abstract class UserEntity extends Equatable {
   final String id;
-  final String name;
   final String email;
+  final String name;
   final String phoneNumber;
   final UserStatus status;
   final UserRole role;
 
-  const User({
+  const UserEntity({
     required this.id,
-    required this.name,
     required this.email,
+    required this.name,
     required this.phoneNumber,
     required this.status,
     required this.role,
@@ -25,58 +25,59 @@ abstract class User extends Equatable {
   List<Object?> get props => [id, name, email, phoneNumber, status, role];
 }
 
-class Customer extends User {
-  final int balanceCents;
+class CustomerEntity extends UserEntity {
+  final int balanceInCents;
 
-  const Customer({
+  const CustomerEntity({
     required super.id,
     required super.name,
     required super.email,
     required super.phoneNumber,
-    this.balanceCents = 0,
     super.status = UserStatus.active,
     super.role = UserRole.customer,
-  }) : assert(balanceCents >= 0);
+    this.balanceInCents = 0,
+  }) : assert(balanceInCents >= 0);
 
-  double getBalance() => balanceCents / 100.0;
+  double getBalance() => balanceInCents / 100.0;
 
-  Customer topUp(int amountCents) {
-    if (amountCents <= 0) {
+  CustomerEntity topUp(int amountInCents) {
+    if (amountInCents <= 0) {
       throw ArgumentError('Top up amount must be > 0');
     }
-    return copyWith(balanceCents: balanceCents + amountCents);
+    return copyWith(balanceInCents: balanceInCents + amountInCents);
   }
 
-  Customer deduct(int amountCents) {
-    if (amountCents <= 0) {
+  CustomerEntity deduct(int amountInCents) {
+    if (amountInCents <= 0) {
       throw ArgumentError('Deduct amount must be > 0');
     }
-    if (amountCents > balanceCents) {
+    if (amountInCents > balanceInCents) {
       throw StateError('Insufficient balance');
     }
-    return copyWith(balanceCents: balanceCents - amountCents);
+    return copyWith(balanceInCents: balanceInCents - amountInCents);
   }
 
-  Customer copyWith({
+  CustomerEntity copyWith({
     String? id,
-    String? name,
     String? email,
+    String? password,
+    String? name,
     String? phoneNumber,
     UserStatus? status,
     UserRole? role,
-    int? balanceCents,
+    int? balanceInCents,
   }) {
-    return Customer(
+    return CustomerEntity(
       id: id ?? this.id,
-      name: name ?? this.name,
       email: email ?? this.email,
+      name: name ?? this.name,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       status: status ?? this.status,
       role: role ?? this.role,
-      balanceCents: balanceCents ?? this.balanceCents,
+      balanceInCents: balanceInCents ?? this.balanceInCents,
     );
   }
 
   @override
-  List<Object?> get props => [...super.props, balanceCents];
+  List<Object?> get props => [...super.props, balanceInCents];
 }

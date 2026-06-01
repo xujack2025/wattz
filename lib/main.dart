@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/routes/app_routes.dart';
 import 'core/themes/app_colors.dart';
 import 'core/widgets/navigation_bar/custom_bottom_nav_bar.dart';
+import 'features/auth/presentation/pages/sign_in_page.dart';
+import 'features/auth/presentation/pages/sign_up_page.dart';
 import 'features/charger/data/datasources/station_local_datasource.dart';
 import 'features/charger/data/repos/station_repository_impl.dart';
 import 'features/charger/domain/usecases/get_stations_usecase.dart';
@@ -54,6 +56,8 @@ class MainApp extends StatelessWidget {
         ),
         home: const CustomBottomNavBar(),
         routes: {
+          AppRoutes.signInPage: (context) => const SignInPage(),
+          AppRoutes.signUpPage: (context) => const SignUpPage(),
           AppRoutes.homePage: (context) => const CustomBottomNavBar(),
           AppRoutes.mapPage: (context) => const MapPage(),
           AppRoutes.rewardPage: (context) => const RewardPage(),

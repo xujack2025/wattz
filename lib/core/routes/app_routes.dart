@@ -1,5 +1,7 @@
 class AppRoutes {
   static const homePage = "/home_page";
+  static const signInPage = "/sign_in_page";
+  static const signUpPage = "/sign_up_page";
   static const onBoardingPage = "/onboarding_page";
   static const mapPage = "/map_page";
   static const profilePage = "/profile_page";

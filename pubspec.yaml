@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   adaptive_platform_ui: ^0.1.107
+  cloud_firestore: ^6.5.0
   cupertino_icons: ^1.0.9
   cupertino_native: ^0.1.1
   equatable: ^2.0.8

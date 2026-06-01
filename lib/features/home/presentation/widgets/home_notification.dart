@@ -26,7 +26,7 @@ class HomeNotification extends StatelessWidget {
           padding: const EdgeInsets.only(right: 16),
           child: ClipOval(
             child: CustomGlassContainer(
-              padding: 10,
+              padding: 6,
               backgroundAlpha: _glassAlpha,
               borderAlpha: _glassBorderAlpha,
               shadowAlpha: _glassShadowAlpha,
