@@ -5,12 +5,17 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../../../../core/params/params.dart';
 import 'auth_remote_data_source.dart';
 
-class FirebaseDataSourceImpl extends AuthRemoteDataSource {
+class FirebaseDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
   final GoogleSignIn googleSignIn;
 
   FirebaseDataSourceImpl(this.auth, this.googleSignIn, this.firestore);
+
+  @override
+  Future<bool> isSignedIn() async {
+    return auth.currentUser != null;
+  }
 
   @override
   Future<void> googleAuth() async {}
@@ -22,7 +27,10 @@ class FirebaseDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<void> signInWithEmail(AuthParams params) async {
-    await auth.signInWithEmailAndPassword(email: params.email, password: params.password);
+    await auth.signInWithEmailAndPassword(
+      email: params.email,
+      password: params.password,
+    );
   }
 
   @override

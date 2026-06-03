@@ -2,16 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc_providers.dart';
 import 'core/routes/app_routes.dart';
 import 'core/themes/app_colors.dart';
 import 'core/widgets/navigation_bar/custom_bottom_nav_bar.dart';
-import 'features/auth/presentation/pages/sign_in_page.dart';
-import 'features/auth/presentation/pages/sign_up_page.dart';
-import 'features/charger/data/datasources/station_local_datasource.dart';
-import 'features/charger/data/repos/station_repository_impl.dart';
-import 'features/charger/domain/usecases/get_stations_usecase.dart';
-import 'features/charger/presentation/bloc/station_bloc.dart';
-import 'features/home/presentation/bloc/navigation/bottom_nav_bloc.dart';
+import 'features/auth/presentation/pages/sign_in_options_page.dart';
+import 'features/auth/presentation/pages/sign_up_with_email_page.dart';
 import 'features/map/presentation/pages/map_page.dart';
 import 'features/onboarding/onboarding_page.dart';
 import 'features/profile/presentation/pages/profile_page.dart';
@@ -19,10 +15,10 @@ import 'features/reward/presentation/pages/reward_page.dart';
 import 'features/scan/presentation/pages/scan_page.dart';
 import 'firebase_options.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MainApp());
 }
@@ -33,18 +29,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => BottomNavBloc()),
-        BlocProvider(
-          create: (context) {
-            final localdataSource = StationLocalDataSourceImpl();
-            final repository = StationRepositoryImpl(localdataSource);
-            final getStationsUseCase = GetStationsUseCase(repository);
-
-            return StationBloc(getStationsUseCase);
-          },
-        ),
-      ],
+      providers: BlocProviders.allBlocProviders,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -57,7 +42,7 @@ class MainApp extends StatelessWidget {
         home: const CustomBottomNavBar(),
         routes: {
           AppRoutes.signInPage: (context) => const SignInPage(),
-          AppRoutes.signUpPage: (context) => const SignUpPage(),
+          AppRoutes.signUpPage: (context) => const SignUpWithEmailPage(),
           AppRoutes.homePage: (context) => const CustomBottomNavBar(),
           AppRoutes.mapPage: (context) => const MapPage(),
           AppRoutes.rewardPage: (context) => const RewardPage(),

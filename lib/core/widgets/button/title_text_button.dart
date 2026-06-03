@@ -36,7 +36,11 @@ class TitleTextButton extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           buttonIcon
-              ? Icon(CupertinoIcons.chevron_right, size: iconSize, color: textColor)
+              ? Icon(
+                  CupertinoIcons.chevron_right,
+                  size: iconSize,
+                  color: textColor,
+                )
               : SizedBox(),
         ],
       ),

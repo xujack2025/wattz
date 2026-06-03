@@ -6,11 +6,13 @@ class ImageContainer extends StatelessWidget {
     this.width = 250,
     this.height = 150,
     required this.image,
+    this.borderRadius = 16,
   });
 
   final double? width;
   final double? height;
   final String image;
+  final double borderRadius;
 
   ImageProvider get imageProvider {
     if (image.startsWith('http')) {
@@ -26,7 +28,7 @@ class ImageContainer extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(borderRadius),
         image: DecorationImage(fit: BoxFit.cover, image: imageProvider),
       ),
     );

@@ -17,10 +17,6 @@ class OnBoardingPage extends StatefulWidget {
 class OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
-  void _onIntroEnd() {
-    Navigator.of(context).pushNamed(AppRoutes.homePage);
-  }
-
   @override
   Widget build(BuildContext context) {
     const bodyStyle = TextStyle(fontSize: 19.0);
@@ -40,10 +36,11 @@ class OnBoardingPageState extends State<OnBoardingPage> {
     return IntroductionScreen(
       key: introKey,
       globalBackgroundColor: AppColors.bgColor,
-      autoScrollDuration: 3000,
-      infiniteAutoScroll: true,
-      animationDuration: 2000,
+      // autoScrollDuration: 3000,
+      // infiniteAutoScroll: true,
+      // animationDuration: 2000,
       globalHeader: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: AppColors.bgColor,
         title: const Text("Wattz", style: AppTextStyles.headlineLarge),
         centerTitle: false,
@@ -58,6 +55,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
             width: double.infinity,
             height: 350,
             image: AppMedia.welcome1,
+            borderRadius: 0,
           ),
           decoration: pageDecoration,
         ),
@@ -69,6 +67,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
             width: double.infinity,
             height: 350,
             image: AppMedia.welcome2,
+            borderRadius: 0,
           ),
           decoration: pageDecoration,
         ),
@@ -80,6 +79,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
             width: double.infinity,
             height: 350,
             image: AppMedia.welcome3,
+            borderRadius: 0,
           ),
           decoration: pageDecoration.copyWith(bodyFlex: 3, footerFlex: 1),
           useScrollView: false,
@@ -98,7 +98,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                     textStyle: bodyStyle,
                   ),
                   onPressed: () {
-                    _onIntroEnd();
+                    Navigator.of(context).pushNamed(AppRoutes.homePage);
                   },
                   child: const Text("Done"),
                 ),

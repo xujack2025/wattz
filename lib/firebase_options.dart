@@ -63,8 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '596573159014',
     projectId: 'wattz-aae31',
     storageBucket: 'wattz-aae31.firebasestorage.app',
-    iosClientId: '596573159014-9uffk3j9mml3gmcmlue2ilp6co79iim9.apps.googleusercontent.com',
+    iosClientId:
+        '596573159014-9uffk3j9mml3gmcmlue2ilp6co79iim9.apps.googleusercontent.com',
     iosBundleId: 'com.xujack.wattz',
   );
-
 }

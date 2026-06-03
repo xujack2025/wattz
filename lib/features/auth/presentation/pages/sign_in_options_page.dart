@@ -3,11 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_media.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/themes/app_colors.dart';
 import '../../../../core/themes/app_text_styles.dart';
 import '../../../../core/widgets/button/custom_filled_button.dart';
 import '../widgets/logo_filled_button.dart';
 import 'sign_in_with_email_page.dart';
+import 'sign_up_with_email_page.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -72,7 +74,8 @@ class SignInPage extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (BuildContext context) => SignInWithEmail(),
+                      builder: (BuildContext context) =>
+                          const SignInWithEmail(),
                       fullscreenDialog: true,
                     ),
                   );
@@ -83,22 +86,41 @@ class SignInPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(AppRoutes.onBoardingPage);
+                    },
                     child: Text(
                       "New to Wattz?",
-                      style: AppTextStyles.labelLarge.copyWith(color: AppColors.darkGrey),
+                      style: AppTextStyles.labelLarge.copyWith(
+                        color: AppColors.darkGrey,
+                      ),
                     ),
                   ),
                 ],
               ),
               Row(
-                children: [CustomFilledButton(text: "Create New Account", onTap: () {})],
+                children: [
+                  CustomFilledButton(
+                    text: "Create New Account",
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const SignUpWithEmailPage(),
+                          fullscreenDialog: true,
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(AppRoutes.homePage);
+                    },
                     child: Text(
                       "Continue As Guest",
                       style: AppTextStyles.labelLarge.copyWith(

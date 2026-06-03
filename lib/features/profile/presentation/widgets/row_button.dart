@@ -20,7 +20,9 @@ class RowButton extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 color: AppColors.white,
-                border: Border(bottom: BorderSide(color: AppColors.grey, width: 0.1)),
+                border: Border(
+                  bottom: BorderSide(color: AppColors.grey, width: 0.1),
+                ),
               ),
               child: Column(
                 children: [
