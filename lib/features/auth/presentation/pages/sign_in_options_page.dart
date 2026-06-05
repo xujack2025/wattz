@@ -11,8 +11,8 @@ import '../widgets/logo_filled_button.dart';
 import 'sign_in_with_email_page.dart';
 import 'sign_up_with_email_page.dart';
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+class SignInOptionsPage extends StatelessWidget {
+  const SignInOptionsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class SignInPage extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          const SignInWithEmail(),
+                          const SignInWithEmailPage(),
                       fullscreenDialog: true,
                     ),
                   );

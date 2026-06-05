@@ -145,7 +145,7 @@ class GuestProfile extends StatelessWidget {
                     onTap: () async {
                       await Navigator.of(
                         context,
-                      ).pushNamed(AppRoutes.signInPage);
+                      ).pushNamed(AppRoutes.signInOptionsPage);
                       if (context.mounted) {
                         context.read<ProfileBloc>().add(const IsSignInEvent());
                       }

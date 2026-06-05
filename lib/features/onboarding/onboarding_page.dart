@@ -98,7 +98,10 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                     textStyle: bodyStyle,
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushNamed(AppRoutes.homePage);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppRoutes.signInOptionsPage,
+                      (route) => false,
+                    );
                   },
                   child: const Text("Done"),
                 ),

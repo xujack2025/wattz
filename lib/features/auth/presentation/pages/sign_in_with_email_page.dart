@@ -9,8 +9,8 @@ import '../../../../core/widgets/text_field/custom_text_field.dart';
 import '../../../profile/presentation/bloc/profile_bloc.dart';
 import '../bloc/sign_in/sign_in_bloc.dart';
 
-class SignInWithEmail extends StatelessWidget {
-  const SignInWithEmail({super.key});
+class SignInWithEmailPage extends StatelessWidget {
+  const SignInWithEmailPage({super.key});
 
   @override
   Widget build(BuildContext context) {

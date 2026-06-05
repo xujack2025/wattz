@@ -3,16 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc_providers.dart';
+import 'core/routes/app_route_generator.dart';
 import 'core/routes/app_routes.dart';
 import 'core/themes/app_colors.dart';
-import 'core/widgets/navigation_bar/custom_bottom_nav_bar.dart';
-import 'features/auth/presentation/pages/sign_in_options_page.dart';
-import 'features/auth/presentation/pages/sign_up_with_email_page.dart';
-import 'features/map/presentation/pages/map_page.dart';
-import 'features/onboarding/onboarding_page.dart';
-import 'features/profile/presentation/pages/profile_page.dart';
-import 'features/reward/presentation/pages/reward_page.dart';
-import 'features/scan/presentation/pages/scan_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -39,17 +32,8 @@ class MainApp extends StatelessWidget {
             primary: AppColors.primary,
           ),
         ),
-        home: const CustomBottomNavBar(),
-        routes: {
-          AppRoutes.signInPage: (context) => const SignInPage(),
-          AppRoutes.signUpPage: (context) => const SignUpWithEmailPage(),
-          AppRoutes.homePage: (context) => const CustomBottomNavBar(),
-          AppRoutes.mapPage: (context) => const MapPage(),
-          AppRoutes.rewardPage: (context) => const RewardPage(),
-          AppRoutes.scanPage: (context) => const ScanPage(),
-          AppRoutes.profilePage: (context) => const ProfilePage(),
-          AppRoutes.onBoardingPage: (context) => const OnBoardingPage(),
-        },
+        initialRoute: AppRoutes.onBoardingPage,
+        onGenerateRoute: AppRouteGenerator.onGenerateRoute,
       ),
     );
   }

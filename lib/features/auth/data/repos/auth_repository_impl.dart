@@ -5,7 +5,7 @@ import '../datasources/remote_datasource/auth_remote_data_source.dart';
 class AuthRepositoryImpl implements AuthRepo {
   final AuthRemoteDataSource remoteDataSource;
 
-  AuthRepositoryImpl({required this.remoteDataSource});
+  AuthRepositoryImpl(this.remoteDataSource);
 
   @override
   Future<bool> isSignedIn() async => await remoteDataSource.isSignedIn();

@@ -33,12 +33,12 @@ class BlocProviders {
     ),
     BlocProvider(
       create: (context) {
-        final dataSource = FirebaseDataSourceImpl(
+        final remoteDataSource = FirebaseDataSourceImpl(
           FirebaseAuth.instance,
           GoogleSignIn.instance,
           FirebaseFirestore.instance,
         );
-        final repo = AuthRepositoryImpl(remoteDataSource: dataSource);
+        final repo = AuthRepositoryImpl(remoteDataSource);
         final signInWithEmailUsecase = SignInWithEmailUsecase(repo);
         return SignInBloc(signInWithEmailUsecase);
       },
@@ -46,12 +46,12 @@ class BlocProviders {
     ),
     BlocProvider(
       create: (contex) {
-        final dataSource = FirebaseDataSourceImpl(
+        final remoteDataSource = FirebaseDataSourceImpl(
           FirebaseAuth.instance,
           GoogleSignIn.instance,
           FirebaseFirestore.instance,
         );
-        final repo = AuthRepositoryImpl(remoteDataSource: dataSource);
+        final repo = AuthRepositoryImpl(remoteDataSource);
         final isSignedInUsecase = IsSignedInUsecase(repo);
         final logOutUsecase = LogOutUsecase(repo);
         return ProfileBloc(isSignedInUsecase, logOutUsecase);
@@ -64,7 +64,7 @@ class BlocProviders {
           GoogleSignIn.instance,
           FirebaseFirestore.instance,
         );
-        final repo = AuthRepositoryImpl(remoteDataSource: dataSource);
+        final repo = AuthRepositoryImpl(dataSource);
         final signUpWithEmailUsecase = SignUpWithEmailUsecase(repo);
         return SignUpBloc(signUpWithEmailUsecase);
       },
