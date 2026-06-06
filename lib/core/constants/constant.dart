@@ -1,3 +1,7 @@
+class AppConstants {
+  static const String storageDeviceOpenFirstTime = 'device_first_open';
+}
+
 class AppMedia {
   /// Assets
   static const basePath = 'assets/images/';

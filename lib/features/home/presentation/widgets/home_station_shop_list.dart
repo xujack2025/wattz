@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/app_media.dart';
+import '../../../../core/constants/constant.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/widgets/button/title_text_button.dart';
 import '../../../charger/domain/entities/charger_entity.dart';

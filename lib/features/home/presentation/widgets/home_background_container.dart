@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/app_media.dart';
+import '../../../../core/constants/constant.dart';
 import '../../../../core/themes/app_colors.dart';
 
 class HomeBackgroundContainer extends StatelessWidget {

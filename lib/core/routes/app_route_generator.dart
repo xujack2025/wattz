@@ -8,6 +8,7 @@ import '../../features/onboarding/onboarding_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/reward/presentation/pages/reward_page.dart';
 import '../../features/scan/presentation/pages/scan_page.dart';
+import '../../global.dart';
 import '../widgets/navigation_bar/custom_bottom_nav_bar.dart';
 import 'app_routes.dart';
 
@@ -15,6 +16,13 @@ class AppRouteGenerator {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.onBoardingPage:
+        final deviceFirstOpen = Global.storageService.getDeviceFirstOpen();
+        return MaterialPageRoute(
+          builder: (_) => deviceFirstOpen
+              ? const OnBoardingPage()
+              : const SignInOptionsPage(),
+        );
+      case AppRoutes.onBoardingPreviewPage:
         return MaterialPageRoute(builder: (_) => const OnBoardingPage());
       case AppRoutes.homePage:
         return MaterialPageRoute(builder: (_) => const CustomBottomNavBar());
@@ -27,7 +35,10 @@ class AppRouteGenerator {
       case AppRoutes.scanPage:
         return MaterialPageRoute(builder: (_) => const ScanPage());
       case AppRoutes.signInOptionsPage:
-        return MaterialPageRoute(builder: (_) => const SignInOptionsPage());
+        return MaterialPageRoute(
+          builder: (_) => const SignInOptionsPage(),
+          fullscreenDialog: true,
+        );
       case AppRoutes.signInWithEmailPage:
         return MaterialPageRoute(builder: (_) => const SignInWithEmailPage());
       case AppRoutes.signUpWithEmailPage:

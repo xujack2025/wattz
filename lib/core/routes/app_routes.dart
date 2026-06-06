@@ -1,6 +1,7 @@
 class AppRoutes {
   // Welcome Page
   static const onBoardingPage = "/onboarding_page";
+  static const onBoardingPreviewPage = "/onboarding_preview_page";
 
   // Application Page
   static const homePage = "/home_page";

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/app_media.dart';
+import '../../../../core/constants/constant.dart';
 import '../../../charger/presentation/widgets/nearby_station_detail_card.dart';
 
 class HomeQuickAccessCard extends StatelessWidget {

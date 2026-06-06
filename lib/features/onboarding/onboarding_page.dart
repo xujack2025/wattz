@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-import '../../core/constants/app_media.dart';
+import '../../core/constants/constant.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_styles.dart';
 import '../../core/widgets/container/image_container.dart';
+import '../../global.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -98,6 +99,10 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                     textStyle: bodyStyle,
                   ),
                   onPressed: () {
+                    Global.storageService.setBool(
+                      AppConstants.storageDeviceOpenFirstTime,
+                      false,
+                    );
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       AppRoutes.signInOptionsPage,
                       (route) => false,

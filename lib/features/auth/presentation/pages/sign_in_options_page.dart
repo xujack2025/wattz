@@ -2,14 +2,12 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/app_media.dart';
+import '../../../../core/constants/constant.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/themes/app_colors.dart';
 import '../../../../core/themes/app_text_styles.dart';
 import '../../../../core/widgets/button/custom_filled_button.dart';
 import '../widgets/logo_filled_button.dart';
-import 'sign_in_with_email_page.dart';
-import 'sign_up_with_email_page.dart';
 
 class SignInOptionsPage extends StatelessWidget {
   const SignInOptionsPage({super.key});
@@ -72,13 +70,9 @@ class SignInOptionsPage extends StatelessWidget {
                 icon: CupertinoIcons.mail,
                 backgroundColor: AppColors.primary.withAlpha(20),
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const SignInWithEmailPage(),
-                      fullscreenDialog: true,
-                    ),
-                  );
+                  Navigator.of(
+                    context,
+                  ).pushNamed(AppRoutes.signInWithEmailPage);
                 },
               ),
               Expanded(child: Container()),
@@ -87,7 +81,9 @@ class SignInOptionsPage extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(AppRoutes.onBoardingPage);
+                      Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutes.onBoardingPreviewPage);
                     },
                     child: Text(
                       "New to Wattz?",
@@ -103,13 +99,9 @@ class SignInOptionsPage extends StatelessWidget {
                   CustomFilledButton(
                     text: "Create New Account",
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const SignUpWithEmailPage(),
-                          fullscreenDialog: true,
-                        ),
-                      );
+                      Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutes.signUpWithEmailPage);
                     },
                   ),
                 ],
