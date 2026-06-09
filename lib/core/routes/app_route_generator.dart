@@ -17,10 +17,17 @@ class AppRouteGenerator {
     switch (settings.name) {
       case AppRoutes.onBoardingPage:
         final deviceFirstOpen = Global.storageService.getDeviceFirstOpen();
+        final isLoggedIn = Global.storageService.isLoggedIn();
         return MaterialPageRoute(
-          builder: (_) => deviceFirstOpen
-              ? const OnBoardingPage()
-              : const SignInOptionsPage(),
+          builder: (_) {
+            if (deviceFirstOpen) {
+              return OnBoardingPage();
+            }
+            if (!isLoggedIn) {
+              return SignInOptionsPage();
+            }
+            return CustomBottomNavBar();
+          },
         );
       case AppRoutes.onBoardingPreviewPage:
         return MaterialPageRoute(builder: (_) => const OnBoardingPage());

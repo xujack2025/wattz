@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../auth/domain/usecases/is_signed_in_usecase.dart';
 import '../../../auth/domain/usecases/logout_usecase.dart';
-import '../../domain/usecases/is_signed_in_usecase.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';

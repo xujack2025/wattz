@@ -19,7 +19,7 @@ class SignInWithEmailPage extends StatelessWidget {
       listener: (context, state) {
         if (state.status == SignInStatus.success) {
           context.read<ProfileBloc>().add(const IsSignInEvent());
-          Navigator.of(context).pushNamed(AppRoutes.profilePage);
+          Navigator.of(context).pushNamed(AppRoutes.homePage);
         }
         if (state.status == SignInStatus.failure) {
           ScaffoldMessenger.of(

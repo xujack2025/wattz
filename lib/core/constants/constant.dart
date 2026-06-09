@@ -1,5 +1,6 @@
 class AppConstants {
   static const String storageDeviceOpenFirstTime = 'device_first_open';
+  static const String isLoggedIn = 'is_logged_in';
 }
 
 class AppMedia {

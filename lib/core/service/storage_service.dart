@@ -15,7 +15,10 @@ class StorageService {
   }
 
   bool getDeviceFirstOpen() {
-    return _preferences.getBool(AppConstants.storageDeviceOpenFirstTime) ??
-        false;
+    return _preferences.getBool(AppConstants.storageDeviceOpenFirstTime) ?? false;
+  }
+
+  bool isLoggedIn() {
+    return _preferences.getBool(AppConstants.isLoggedIn) ?? false;
   }
 }

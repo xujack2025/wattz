@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'features/auth/data/datasources/remote_datasource/firebase_data_source_impl.dart';
 import 'features/auth/data/repos/auth_repository_impl.dart';
+import 'features/auth/domain/usecases/is_signed_in_usecase.dart';
 import 'features/auth/domain/usecases/logout_usecase.dart';
 import 'features/auth/domain/usecases/sign_in_with_email_usecase.dart';
 import 'features/auth/domain/usecases/sign_up_with_email_usecase.dart';
@@ -16,7 +17,6 @@ import 'features/charger/data/repos/station_repository_impl.dart';
 import 'features/charger/domain/usecases/get_stations_usecase.dart';
 import 'features/charger/presentation/bloc/station_bloc.dart';
 import 'features/home/presentation/bloc/navigation/bottom_nav_bloc.dart';
-import 'features/profile/domain/usecases/is_signed_in_usecase.dart';
 import 'features/profile/presentation/bloc/profile_bloc.dart';
 
 class BlocProviders {
