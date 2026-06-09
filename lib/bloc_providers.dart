@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,7 @@ import 'features/auth/domain/usecases/sign_in_with_email_usecase.dart';
 import 'features/auth/domain/usecases/sign_up_with_email_usecase.dart';
 import 'features/auth/presentation/bloc/sign_in/sign_in_bloc.dart';
 import 'features/auth/presentation/bloc/sign_up/sign_up_bloc.dart';
-import 'features/charger/data/datasources/station_local_datasource.dart';
+import 'features/charger/data/datasources/station_remote_datasource.dart';
 import 'features/charger/data/repos/station_repository_impl.dart';
 import 'features/charger/domain/usecases/get_stations_usecase.dart';
 import 'features/charger/presentation/bloc/station_bloc.dart';
@@ -24,8 +25,8 @@ class BlocProviders {
     BlocProvider(create: (context) => BottomNavBloc()),
     BlocProvider(
       create: (context) {
-        final localdataSource = StationLocalDataSourceImpl();
-        final repository = StationRepositoryImpl(localdataSource);
+        final remotedataSource = StationRemoteDatasourceImpl(Dio());
+        final repository = StationRepositoryImpl(remotedataSource);
         final getStationsUseCase = GetStationsUseCase(repository);
 
         return StationBloc(getStationsUseCase);

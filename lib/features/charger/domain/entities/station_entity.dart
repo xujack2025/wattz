@@ -7,29 +7,41 @@ enum StationStatus { available, busy, offline, maintenance }
 class StationEntity extends Equatable {
   final String id;
   final String name;
+  final String operatorName;
   final String address;
   final double latitude;
   final double longitude;
+  final double distance;
+  final String town;
   final StationStatus status;
   final List<ChargerEntity> chargers;
 
-  StationEntity({
+  const StationEntity({
     required this.id,
     required this.name,
+    required this.operatorName,
     required this.address,
     required this.latitude,
     required this.longitude,
+    required this.distance,
+    required this.town,
     required this.status,
-    required List<ChargerEntity> chargers,
-  }) : chargers = List.unmodifiable(chargers);
+    required this.chargers,
+  });
 
-  List<ChargerEntity> getAllCharger() {
-    return chargers;
+  double get maxPower {
+    if (chargers.isEmpty) return 0.0;
+
+    return chargers.map((c) => c.powerOutput).reduce((a, b) => a > b ? a : b);
   }
 
-  List<ChargerEntity> getAvailableChargers() {
-    return chargers.where((charger) => charger.isAvailable).toList();
-  }
+  // List<ChargerEntity> getAllCharger() {
+  //   return chargers;
+  // }
+
+  // List<ChargerEntity> getAvailableChargers() {
+  //   return chargers.where((charger) => charger.isAvailable).toList();
+  // }
 
   // Station copyWith({
   //   String? id,

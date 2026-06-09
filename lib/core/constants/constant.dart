@@ -1,3 +1,27 @@
+/// Station Section
+String sId = 'ID';
+String sOperatorInfo = 'OperatorInfo';
+String s = 'OperatorInfo';
+String sTitle = 'Title';
+String sAddress1 = 'AddressLine1';
+String sLat = 'Latitude';
+String sLon = 'Longitude';
+String sDistance = 'Distance';
+String sTown = 'Town';
+String sPostcode = 'Postcode';
+String sStatusType = 'StatusType';
+String sAddressInfo = 'AddressInfo';
+String sConnections = 'Connections';
+
+/// Connection Section
+String cID = 'ID';
+String cStatusType = 'StatusType';
+String cTitle = 'Title';
+String cPowerKW = 'PowerKW';
+String cConnectionType = 'ConnectionType';
+
+int maxresults = 100;
+
 class AppConstants {
   static const String storageDeviceOpenFirstTime = 'device_first_open';
   static const String isLoggedIn = 'is_logged_in';

@@ -33,7 +33,10 @@ class FirebaseDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<void> signInWithEmail(AuthParams params) async {
-    await auth.signInWithEmailAndPassword(email: params.email, password: params.password);
+    await auth.signInWithEmailAndPassword(
+      email: params.email,
+      password: params.password,
+    );
   }
 
   @override

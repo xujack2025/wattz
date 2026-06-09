@@ -3,12 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/constant.dart';
+import '../../../../core/params/params.dart';
 import '../../../../core/themes/app_colors.dart';
 import '../../../../core/widgets/button/title_text_button.dart';
 import '../../../../core/widgets/container/image_container.dart';
+import '../../../charger/domain/entities/charger_entity.dart';
+import '../../../charger/domain/entities/station_entity.dart';
 import '../../../charger/presentation/bloc/station_bloc.dart';
-import '../../../charger/presentation/widgets/station_image_card.dart';
 import '../widgets/home_background_container.dart';
 import '../widgets/home_header_quick_access_card.dart';
 import '../widgets/home_notification.dart';
@@ -66,8 +67,6 @@ class _HomePageState extends State<HomePage> {
       displacement: 0,
       onRefresh: () async {
         context.read<StationBloc>().add(StationsRequested());
-        Future.delayed(Duration(seconds: 1));
-        debugPrint("Data reloaded!");
       },
       child: Scaffold(
         backgroundColor: AppColors.bgColor,
@@ -144,37 +143,31 @@ class _HomePageState extends State<HomePage> {
 
                     // Shopping Station List
                     const SizedBox(height: 30),
-                    HomeStationShopList(),
-
-                    // On The Road Header
-                    const SizedBox(height: 30),
-                    const TitleTextButton(text: "While On The Road"),
+                    HomeStationList(headerText: "While You Shop"),
 
                     // On The Road Station List
-                    const SizedBox(height: 6),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Row(
-                        children: [
-                          for (int i = 0; i < 5; i++) ...[
-                            StationImageCard(
-                              stationName: "Petronas Penchana link",
-                              stationInfo: "6.3 km · Kuala Lumpur",
-                              stationImageUrl:
-                                  "https://placehold.co/250x150.png",
-                              stationLogo: AppMedia.logoUrl,
-                              connectors: const [
-                                ConnectorDisplay(type: "DC", count: 3),
-                              ],
-                            ),
-                            (i < 4)
-                                ? const SizedBox(width: 14)
-                                : const SizedBox(width: 16),
-                          ],
-                        ],
-                      ),
-                    ),
+                    const SizedBox(height: 30),
+                    HomeStationList(headerText: "While On The Road"),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   padding: const EdgeInsets.only(left: 16),
+                    //   child: Row(
+                    //     children: [
+                    //       for (int i = 0; i < 5; i++) ...[
+                    //         StationImageCard(
+                    //           stationName: "Petronas Penchana link",
+                    //           stationInfo: "6.3 km · Kuala Lumpur",
+                    //           stationImageUrl: "https://placehold.co/250x150.png",
+                    //           stationLogo: AppMedia.logoUrl,
+                    //           connectors: const [ConnectorParams(type: "DC", count: 3)],
+                    //         ),
+                    //         (i < 4)
+                    //             ? const SizedBox(width: 14)
+                    //             : const SizedBox(width: 16),
+                    //       ],
+                    //     ],
+                    //   ),
+                    // ),
 
                     /// Bottom Safe Area
                     SizedBox(height: 70),
@@ -186,5 +179,37 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+}
+
+List<ConnectorParams> connectorDisplaysForStation(StationEntity station) {
+  if (station.chargers.isEmpty) {
+    return const [];
+  }
+
+  final counts = <String, int>{};
+  for (final charger in station.chargers) {
+    final label = _connectorLabelForCharger(charger);
+    counts[label] = (counts[label] ?? 0) + 1;
+  }
+
+  return counts.entries
+      .map((entry) => ConnectorParams(type: entry.key, count: entry.value))
+      .toList();
+}
+
+String _connectorLabelForCharger(ChargerEntity charger) {
+  return charger.isAC ? 'AC' : 'DC';
+}
+
+String formatDistance(double? distanceInKm) {
+  if (distanceInKm == null) return 'Unknown distance';
+
+  if (distanceInKm < 1.0) {
+    final meters = (distanceInKm * 1000).toStringAsFixed(0);
+    return '$meters m';
+  } else {
+    final km = distanceInKm.toStringAsFixed(1);
+    return '$km km';
   }
 }

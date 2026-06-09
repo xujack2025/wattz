@@ -4,39 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/constant.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/widgets/button/title_text_button.dart';
-import '../../../charger/domain/entities/charger_entity.dart';
-import '../../../charger/domain/entities/station_entity.dart';
 import '../../../charger/presentation/bloc/station_bloc.dart';
 import '../../../charger/presentation/widgets/station_image_card.dart';
+import '../pages/home_page.dart';
 
-class HomeStationShopList extends StatelessWidget {
-  const HomeStationShopList({super.key});
+class HomeStationList extends StatelessWidget {
+  const HomeStationList({super.key, required this.headerText});
 
-  List<ConnectorDisplay> _connectorDisplaysForStation(StationEntity station) {
-    if (station.chargers.isEmpty) {
-      return const [];
-    }
-
-    final counts = <String, int>{};
-    for (final charger in station.chargers) {
-      final label = _connectorLabelForCharger(charger);
-      counts[label] = (counts[label] ?? 0) + 1;
-    }
-
-    return counts.entries
-        .map((entry) => ConnectorDisplay(type: entry.key, count: entry.value))
-        .toList();
-  }
-
-  String _connectorLabelForCharger(ChargerEntity charger) {
-    return charger.isAC ? 'AC' : 'DC';
-  }
+  final String headerText;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const TitleTextButton(text: "While You Shop"),
+        TitleTextButton(text: headerText),
         const SizedBox(height: 6),
         BlocBuilder<StationBloc, StationState>(
           builder: (context, state) {
@@ -58,6 +39,17 @@ class HomeStationShopList extends StatelessWidget {
             }
             if (state is StationsLoaded) {
               final stations = state.stations;
+              // debugPrint('${stations.length}');
+              // for (var station in stations) {
+              //   debugPrint("===============================");
+              //   debugPrint("Station: ${station.name}");
+              //   debugPrint("Chargers Count: ${station.chargers.length}");
+              //   for (var charger in station.chargers) {
+              //     debugPrint(
+              //       "  - Charger ID: ${charger.id}, Power: ${charger.powerOutput}kW, Type: ${charger.connectorType}",
+              //     );
+              //   }
+              // }
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.only(left: 16),
@@ -70,13 +62,20 @@ class HomeStationShopList extends StatelessWidget {
                             AppRoutes.homePage,
                             arguments: {"index": i},
                           );
+                          // print('${stations[i].name}');
                         },
-                        child: StationImageCard(
-                          stationName: stations[i].name,
-                          stationInfo: "3 km · Kuala Lumpur",
-                          stationImageUrl: AppMedia.placehold,
-                          stationLogo: AppMedia.logoUrl,
-                          connectors: _connectorDisplaysForStation(stations[i]),
+                        child: SizedBox(
+                          width: 250,
+                          child: StationImageCard(
+                            stationName: stations[i].name,
+                            stationInfo:
+                                "${(formatDistance(stations[i].distance))} · ${stations[i].town}",
+                            stationImageUrl: AppMedia.placehold,
+                            stationLogo: AppMedia.logoUrl,
+                            connectors: connectorDisplaysForStation(
+                              stations[i],
+                            ),
+                          ),
                         ),
                       ),
                       (i < stations.length - 1)

@@ -13,7 +13,7 @@ class StationBloc extends Bloc<StationEvent, StationState> {
   StationBloc(this.getStationsUseCase) : super(const StationInitial()) {
     on<StationsRequested>((event, emit) async {
       emit(StationLoading());
-      await Future.delayed(const Duration(seconds: 3));
+      // await Future.delayed(const Duration(seconds: 3));
       try {
         final stations = await getStationsUseCase();
         emit(StationsLoaded(stations));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/params/params.dart';
 import '../../../../core/themes/app_colors.dart';
 import '../../../../core/themes/app_text_styles.dart';
 import 'connector_type_container.dart';
@@ -8,10 +9,9 @@ class StationDetailCard extends StatelessWidget {
   const StationDetailCard({
     super.key,
     required this.address,
-    required this.chargerType,
-    required this.chargers,
     required this.isCompact,
     required this.borderRadius,
+    required this.connectors,
     this.logoUrl,
     this.name,
     this.powerOutput,
@@ -24,14 +24,13 @@ class StationDetailCard extends StatelessWidget {
   });
 
   final String address;
-  final String chargerType;
-  final int chargers;
   final String? logoUrl;
   final String? name;
   final double? powerOutput;
-  final double? distanceInMeters;
+  final String? distanceInMeters;
   final double? rating;
   final Widget? widgetRow;
+  final List<ConnectorParams> connectors;
 
   // UI Configuration & Styles (UI 布局与样式配置)
   final bool isCompact;
@@ -81,16 +80,23 @@ class StationDetailCard extends StatelessWidget {
             ],
 
             // Text
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Merchant
-                if (name != null) ...[
-                  Text(name!, style: AppTextStyles.labelSmall),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Merchant
+                  if (name != null) ...[
+                    Text(name!, style: AppTextStyles.labelSmall),
+                  ],
+                  // Address
+                  Text(
+                    address,
+                    maxLines: 2,
+                    style: AppTextStyles.titleMedium,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
-                // Address
-                Text(address, style: AppTextStyles.titleMedium),
-              ],
+              ),
             ),
           ],
         ),
@@ -102,7 +108,7 @@ class StationDetailCard extends StatelessWidget {
           children: [
             // Details
             Text(
-              "$powerOutput kW max  ·  ${distanceInMeters!.toInt()} m  ·  ⭐️ $rating",
+              "$powerOutput kW max ·  $distanceInMeters  ·  ⭐️ $rating",
               style: AppTextStyles.labelSmall.copyWith(
                 fontWeight: FontWeight.w500,
               ),
@@ -112,11 +118,19 @@ class StationDetailCard extends StatelessWidget {
 
         /// Current Type
         const SizedBox(height: 6),
-
-        const ConnectorTypeContainer(
-          connectorType: "DC",
-          chargerIndex: 2,
-          borderRadius: 8,
+        Row(
+          children: [
+            for (int i = 0; i < connectors.length; i++) ...[
+              ConnectorTypeContainer(
+                connectorType: connectors[i].type,
+                chargerIndex: connectors[i].count,
+                borderRadius: 8,
+                indexStyle: AppTextStyles.labelLarge,
+                connectorStyle: AppTextStyles.labelLarge,
+              ),
+              if (i < connectors.length - 1) const SizedBox(width: 6),
+            ],
+          ],
         ),
 
         /// Row
@@ -169,42 +183,21 @@ class StationDetailCard extends StatelessWidget {
             Row(
               children: [
                 // Charger Type Icon
-                Container(
-                  padding: const EdgeInsets.fromLTRB(0, 0.5, 0, 0.5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: BoxBorder.all(
-                      width: 1,
-                      style: BorderStyle.solid,
-                      color: AppColors.primary,
+                for (int i = 0; i < connectors.length; i++) ...[
+                  ConnectorTypeContainer(
+                    connectorType: connectors[i].type,
+                    chargerIndex: connectors[i].count,
+                    borderRadius: 5,
+                    indexStyle: AppTextStyles.labelSmall,
+                    connectorStyle: AppTextStyles.labelSmall.copyWith(
+                      fontSize: 9,
                     ),
                   ),
-                  child: Center(
-                    child: Text(
-                      chargerType,
-                      style: AppTextStyles.labelSmall.copyWith(
-                        fontSize: 9,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                ),
-                // Quantity
-                const SizedBox(width: 4),
-                Text(
-                  chargers.toString(),
-                  style: AppTextStyles.labelSmall.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
-                ),
+                  if (i < connectors.length - 1) const SizedBox(width: 6),
+                ],
               ],
             ),
-            Text(
-              "${distanceInMeters!.toInt()} m",
-              style: AppTextStyles.labelSmall,
-            ),
+            Text("$distanceInMeters", style: AppTextStyles.labelSmall),
           ],
         ),
       ],

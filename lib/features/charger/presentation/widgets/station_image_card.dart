@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/params/params.dart';
 import '../../../../core/themes/app_text_styles.dart';
 import '../../../../core/widgets/container/image_container.dart';
 import 'connector_type_container.dart';
@@ -19,7 +20,7 @@ class StationImageCard extends StatelessWidget {
   final String stationInfo;
   final String stationImageUrl;
   final String stationLogo;
-  final List<ConnectorDisplay> connectors;
+  final List<ConnectorParams> connectors;
   final double borderRadius;
 
   @override
@@ -29,7 +30,7 @@ class StationImageCard extends StatelessWidget {
       children: [
         ImageContainer(image: stationImageUrl),
         const SizedBox(height: 6),
-        Text(stationName, overflow: TextOverflow.clip, maxLines: 1),
+        Text(stationName, overflow: TextOverflow.ellipsis, maxLines: 1),
         const SizedBox(height: 2),
         Text(stationInfo),
         const SizedBox(height: 2),
@@ -61,11 +62,4 @@ class StationImageCard extends StatelessWidget {
       ],
     );
   }
-}
-
-class ConnectorDisplay {
-  const ConnectorDisplay({required this.type, required this.count});
-
-  final String type;
-  final int count;
 }
